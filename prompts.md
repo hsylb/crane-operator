@@ -233,3 +233,17 @@ The specification and prompt log were not lost. The prompt log documents the act
 
 - **Request and personal review:** The user reviewed the corrected Stage 4 application, confirmed they were satisfied with the end-of-game feedback, and asked to record their approval and mark Stage 4 ready to commit.
 - **Change and outcome:** Recorded the user's approval in this log. No additional test results were reported or run. Stage 4 is approved and ready to commit. The application and specification were left as reviewed, the work remains uncommitted, and Stage 5 remains pending.
+
+## 2026-11-23 · Stage 5 local validation
+
+- **Request:** Read the full specification and complete Stage 5 only. Run the full Validation checklist, record expected and actual results, fix discovered defects and retest, and identify manual checks still needed. Keep the work uncommitted for review.
+- **Changes:** Recorded new test results and the six-view desktop/mobile matrix in the Validation section of `spec.md`, separately from the earlier Codex, independent, and personal Stage 4 records. In `index.html`, corrected delivered callout text that overflowed its cards, added outcome icons alongside the result text, and accounted for SVG outlines in the roof and suspended-load clearance. The painted gap at the 25 ft clearance height increased from 1.75 ft to the specified 3.5 ft. Temporary browser fixtures stayed outside the project.
+- **New gameplay results:** Headless Chrome 158 passed all 101 whole-foot capacity lookups, all eight raw utilization thresholds, the 74/75/76 ft hand cases, both ends of every delivery tolerance, all staging corners, invalid actions, control holds/cancel/blur, exact-deadline precedence, and restart. The live-clock keyboard run won at 3/3 and 300 points with 80 s left. The natural timeout showed 100 points, 1/3, and 0 s and stopped gameplay. An all-touch emulation run completed the first delivery for 100 points at 320 × 568.
+- **New presentation and standalone results:** All six selected viewports passed layout checks. Affected geometry, delivery labels, outcome panels, restart, and reduced-motion checks passed after correction. Chromium exposed the live warning, results, chart, and named controls in its accessibility tree. An isolated copy of `index.html` played offline with zero resource requests.
+- **Outcome:** The automated local Stage 5 checklist passed. Physical-phone and personal desktop walkthroughs, real screen-reader announcements, and device reduced-motion checks remain marked Not run. No additional features, publication, or commit.
+
+## 2026-11-23 · Stage 5 manual desktop results
+
+- **Request:** Record the user's manual results separately from the automated Stage 5 checks, identify outstanding tests, and confirm the status of mandatory core functionality and hand calculations.
+- **User-reported manual results:** Completed a desktop gameplay walkthrough. The results panel and outcome icons displayed correctly, delivered-load labels fit, and keyboard focus behaved correctly after restart. Browser version and viewport were unspecified.
+- **Change and outcome:** Updated Validation in `spec.md` with the manual desktop results. Mandatory core functionality and all three hand-calculation cases passed the recorded local checks. Physical-phone testing, real screen-reader checks, and device reduced-motion testing remain marked Not run. No new automated checks, application changes, additional features, or commit.

@@ -180,81 +180,129 @@ Keep the app in one `index.html` file. Prefer inline vector drawings and CSS ove
 
 ## Validation
 
-The tests below define expected results for the completed application. Use the conservative capacity lookup in Calculations. Do not add test-only loads to the selectable game loads.
+### Stage 5 test record
+
+New local validation was run on 2026-11-23 in Google Chrome 158.0.8127.88 (headless Chromium on macOS). The viewport matrix was selected before layout testing. It used 320 × 568, 390 × 844, 430 × 932, and 780 × 844 CSS px with touch emulation, and 781 × 844 and 1440 × 1000 CSS px with desktop input. The 780/781 px pair checks both sides of the mobile breakpoint.
+
+The automated results below are from this Stage 5 run. The user’s later desktop walkthrough is recorded under Manual results. A temporary copy of the HTML exposed the existing calculation functions and allowed clock control for exact-boundary tests. The real-clock win and timeout, touch tests, responsive layout and offline checks used the application file without instrumentation. The test harness stayed outside the project.
+
+Earlier Stage 4 evidence remains in [the prompt log](prompts.md). It includes Codex's automated tests, independent Chromium and source checks reported by the user, and the user's personal approval of the corrected end-of-game feedback. Those records were kept separate from the new Stage 5 results.
 
 ### Hand calculations
 
 For each case, \(W=12{,}000\) lb and \(U=(W/C(R))\times100\).
 
-| Test | Substitution and expected calculation | Expected result |
-|---|---|---|
-| 74 ft | \(C(74)=13{,}000\) lb; \(U=(12{,}000\text{ lb}/13{,}000\text{ lb})\times100=92.3077\ldots\%=92.31\%\) | Warning; no tip-over |
-| 75 ft | \(C(75)=13{,}000\) lb; \(U=(12{,}000\text{ lb}/13{,}000\text{ lb})\times100=92.3077\ldots\%=92.31\%\) | Warning; no tip-over |
-| 76 ft | \(C(76)=9{,}000\) lb; \(U=(12{,}000\text{ lb}/9{,}000\text{ lb})\times100=133.3333\ldots\%=133.33\%\) | Tip-over; game ends |
+| Radius | Substitution and expected calculation | Expected outcome | Actual in play with 12,000 lb | Status |
+|---|---|---|---|---|
+| 74 ft | \(C(74)=13{,}000\) lb; \(U=(12{,}000\text{ lb}/13{,}000\text{ lb})\times100=92.3077\ldots\%=92.31\%\) | Warning, no tip-over | 13,000 lb, 92.31%, warning, still running | Pass |
+| 75 ft | \(C(75)=13{,}000\) lb; \(U=(12{,}000\text{ lb}/13{,}000\text{ lb})\times100=92.3077\ldots\%=92.31\%\) | Warning, no tip-over | 13,000 lb, 92.31%, warning, still running | Pass |
+| 76 ft | \(C(76)=9{,}000\) lb; \(U=(12{,}000\text{ lb}/9{,}000\text{ lb})\times100=133.3333\ldots\%=133.33\%\) | Tip-over ends play | 9,000 lb, 133.33%, overload ended play on the 75 to 76 ft step | Pass |
 
 ### Capacity lookup boundaries
 
 Check exact table radii and the next 1 ft radius. Capacity must change according to the stepwise rule, without interpolation.
 
-| Radius input | Expected allowable capacity |
-|---:|---:|
-| 50 ft | 20,000 lb |
-| 51 ft | 13,000 lb |
-| 75 ft | 13,000 lb |
-| 76 ft | 9,000 lb |
-| 100 ft | 9,000 lb |
-| 101 ft | 7,000 lb |
-| 125 ft | 7,000 lb |
-| 126 ft | 5,500 lb |
-| 150 ft | 5,500 lb |
-| Attempt to move beyond 150 ft | Radius remains 150 ft; no lookup is performed outside the valid range |
+| Radius input | Expected allowable capacity | Actual | Status |
+|---|---:|---|---|
+| 50 ft | 20,000 lb | 20,000 lb | Pass |
+| 51 ft | 13,000 lb | 13,000 lb | Pass |
+| 75 ft | 13,000 lb | 13,000 lb | Pass |
+| 76 ft | 9,000 lb | 9,000 lb | Pass |
+| 100 ft | 9,000 lb | 9,000 lb | Pass |
+| 101 ft | 7,000 lb | 7,000 lb | Pass |
+| 125 ft | 7,000 lb | 7,000 lb | Pass |
+| 126 ft | 5,500 lb | 5,500 lb | Pass |
+| 150 ft | 5,500 lb | 5,500 lb | Pass |
+| Move outward at 150 ft | Hold 150 ft without looking up an out-of-range value | Stayed at 150 ft and 5,500 lb | Pass |
+
+The lookup also matched the expected step for all 101 whole-foot radii. Direct calls at 49, 151, and 50.5 ft were rejected.
 
 ### No-load and utilization thresholds
 
-With no suspended load at \(R=100\) ft: \(W=0\) lb, \(C(R)=9{,}000\) lb, and \(U=0.00\%\). Expected: normal status, no warning, and no tip-over.
+Test classification with raw percentages before rounding. The threshold cases used the existing classifier directly and added no game loads.
 
-Test the threshold-classification logic directly with utilization percentages. These are isolated calculation tests, not additional selectable or simulated loads. Compare the unrounded percentage; display rounding must not change its classification.
+| Input | Expected display | Expected status | Actual display and classification | Status |
+|---|---:|---|---|---|
+| No suspended load at 100 ft | 0.00% | Normal operation at 9,000 lb capacity | 0.00%, 9,000 lb, Normal, game continued | Pass |
+| 89.99% | 89.99% | Normal | 89.99%, Normal | Pass |
+| 89.999% | 90.00% | Normal | 90.00%, Normal | Pass |
+| 90.00% | 90.00% | Warning | 90.00%, Warning | Pass |
+| 90.01% | 90.01% | Warning | 90.01%, Warning | Pass |
+| 99.99% | 99.99% | Warning | 99.99%, Warning | Pass |
+| 100.00% | 100.00% | Warning, no tip-over | 100.00%, Warning | Pass |
+| 100.001% | 100.00% | Overload | 100.00%, Overload | Pass |
+| 100.01% | 100.01% | Overload | 100.01%, Overload | Pass |
 
-| Utilization input | Expected displayed value | Expected status |
-|---:|---:|---|
-| 89.99% | 89.99% | Normal |
-| 89.999% | 90.00% | Normal |
-| 90.00% | 90.00% | Warning |
-| 90.01% | 90.01% | Warning |
-| 99.99% | 99.99% | Warning |
-| 100.00% | 100.00% | Warning; no tip-over |
-| 100.001% | 100.00% | Tip-over; game ends |
-| 100.01% | 100.01% | Tip-over; game ends |
+The 12,000 lb run confirmed that overload classification ends play in the application.
 
 ### Movement, pickup, and delivery
 
-- At \(R=50\) ft, attempt inward movement; at \(R=150\) ft, attempt outward movement. At hook heights 0 ft and 30 ft, attempt movement beyond each limit. Expected: no position moves outside its allowed range.
-- Verify one direction press moves 1 ft and a held direction moves at 10 ft/s in 1 ft increments. Verify that release, touchscreen cancellation, or browser-window focus loss stops held movement; opposing directions on the same axis cancel.
-- With a load suspended at \(h=24\) ft, horizontal movement alone is blocked. With both axes moving, verify vertical movement updates first: from 24 ft, an upward step to 25 ft permits the horizontal step in that update. At \(h=25\) ft, horizontal movement is allowed.
-- Verify pickup at the inclusive staging tolerance: \(R=50\)–51 ft and \(h=0\)–1 ft, when no load is suspended and a load remains. Verify pickup outside either tolerance, with a load already suspended, or after all loads are delivered is rejected without changing game state.
-- Verify the inclusive delivery ranges: 4,000 lb at \(R=124\)–126 ft, 8,000 lb at \(R=98\)–100 ft, and 12,000 lb at \(R=73\)–75 ft; \(h=19\)–21 ft for each. Check both endpoints. Every accepted radius must remain within capacity.
-- Attempt delivery outside a target's radius or height tolerance and at the wrong target. Expected: the load remains suspended and the score does not change.
+| Test | Expected | Actual | Status and notes |
+|---|---|---|---|
+| Movement bounds | Radius stays within 50–150 ft and height within 0–30 ft | Attempts past 50, 150, 0, and 30 ft stopped at those values without wrapping | Pass |
+| Tap, hold, and release | A tap moves 1 ft, holding repeats at 10 ft/s in 1 ft increments, and release stops motion | A tap moved 1 ft. A 350 ms keyboard or touch hold moved 4 ft including the initial step, then stopped | Pass |
+| Cancel, blur, and opposing directions | Touch cancellation and window focus loss stop movement. Opposing directions cancel on that axis | An emulated touch cancel and synthetic window blur stopped their respective holds. Opposing held keys produced no further movement along that axis | Pass |
+| Loaded clearance and order of movement | At 24 ft, a horizontal step is blocked. With both axes active, raising to 25 ft permits a horizontal step in that update | Loaded radius stayed at 50 ft at 24 ft. The simultaneous update changed height to 25 ft and radius to 51 ft. Emulated touch below clearance left radius unchanged | Pass |
+| Pickup tolerance | The 4,000 lb load can be picked up at any corner of 50–51 ft radius and 0–1 ft height | All four accepted corners picked up 4,000 lb without changing score | Pass |
+| Invalid pickup or extra load | A pickup outside either tolerance, while carrying, or after the final delivery cannot take another load | At (52, 0) and (50, 2), no load attached and pickup instructions appeared. Using the control while carrying at staging kept the original load attached. After the win, the control left the 300-point result and empty hook unchanged | Pass |
+| Delivery tolerances | For 4,000, 8,000, and 12,000 lb respectively, accept 124–126, 98–100, and 73–75 ft at 19–21 ft height. All accepted radii remain within capacity | Lower endpoints at 124/98/73 ft and 19 ft, upper endpoints at 126/100/75 ft and 21 ft, and all centers delivered successfully. The lowest capacities across the respective ranges were 5,500, 9,000, and 13,000 lb | Pass |
+| Invalid delivery | A wrong target or position outside the radius or height tolerance leaves the load suspended and score unchanged | With 4,000 lb, radius 123 or 127 ft at 20 ft, height 18 or 22 ft at 125 ft, and target B at 99 ft and 20 ft were rejected with delivery instructions and score 0 | Pass |
 
 ### Game flow, scoring, and controls
 
-- On first open, verify the ready state: \(R=50\) ft, \(h=0\) ft, no suspended load, 4,000 lb next, delivery progress 0/3, score 0 points, and the timer stopped at 120 s. Gameplay controls must not start play until Start is pressed.
-- Deliver the three fixed loads in order at the centers of their delivery ranges, returning to staging between loads. The horizontal path is \(75+75+49+49+24=272\) ft; the required vertical path is 130 ft. Moving both axes sequentially at 10 ft/s takes approximately \((272+130)/10=40.2\) seconds, excluding interaction time. Expected: all three loads delivered before 120 s, progress 3/3, score 300 points, and a win.
-- Verify one successful delivery adds exactly 100 points. Holding the pick-up/release control triggers only one action per press; repeated or invalid actions do not award duplicate points.
-- Allow the timer to reach 0 s before all loads are delivered. Expected: timeout loss, no delivery accepted at the exact expiration time, and the score reflects only completed deliveries.
-- Restart from a running game, a win, and a loss. Expected: ready state restored with \(R=50\) ft, \(h=0\) ft, \(W=0\) lb, score 0, timer stopped at 120 s, and the 4,000 lb load next.
-- Verify keyboard and touchscreen controls produce the same movement and pickup/release behavior. Check that the touch dock remains usable without covering the crane simulation.
+| Test | Expected | Actual | Status and notes |
+|---|---|---|---|
+| Ready state | Radius 50 ft, hook 0 ft, no suspended load, 4,000 lb next, 0/3 deliveries, 0 points, and 120 s stopped. Only Start begins play | The opening readouts and controls matched. Attempts to move or pick up before Start left the initial state intact and the countdown stayed at 120 s. Restart restored the same stopped clock | Pass |
+| Full real-clock win | Deliver at 125, 99, and 74 ft at 20 ft height in order before 120 s. Finish at 3/3 and 300 points. Nominal sequential path is 272 ft horizontal plus 130 ft vertical, about 40.2 s at 10 ft/s | Held keyboard movement completed all three deliveries. The “Congratulations! — You Win!” panel showed 300 points and 3/3, with 80 s on the stopped countdown. Time continued decreasing during the third-load warning | Pass |
+| Points and one action per press | Each delivery adds 100 points once. Held or invalid actions cannot award duplicate points | Cumulative score was 100, 200, then 300. Repeated keydown events during a single held Space press counted once, as did a held emulated touch release. Invalid and post-win input awarded no points | Pass |
+| Natural timeout | At 0 s, play ends, gameplay controls disable, and only completed deliveries count | A 390 × 844 run with one delivery reached zero on the unmodified clock. The poll observed “Time's Up! — Game Over.” at about 121 s after Start, with 100 points and 1/3. The timer remained at 0 and play controls were disabled. The panel appeared at the existing scroll position, also fit when resized to 1440 × 1000, and could be restarted by touch | Pass |
+| Exact deadline precedence | An otherwise valid final delivery just before the deadline wins. At the deadline, timeout takes precedence over an otherwise valid delivery | A controlled clock accepted the third delivery at deadline minus 1 ms, froze at the displayed 1 s, and ended with a win and 300 points. A valid second-delivery input at the exact deadline was rejected, leaving the load suspended and the score at 100 | Pass |
+| Tip-over ending | Overload stops movement and time immediately. Play controls disable and earned score remains | The 75 to 76 ft step ended play. An isolated clock run retained 200 points and 16 displayed seconds, and further actions did not move or deliver the load | Pass |
+| Restart and Play Again | Reset a running game or any result to the complete ready state | Restart while running and restart after win, timeout, or tip-over restored radius 50 ft, hook 0 ft, 20,000 lb capacity, 0.00% utilization, empty hook, 4,000 lb next, 0/3, zero score, and stopped 120 s. Keyboard and emulated touch Play Again hid the results and focused Start | Pass |
+| Keyboard and emulated touch parity | Both input routes move, pick up, and deliver under the same clearance and scoring rules | An all-touch run at 320 × 568 started, picked up, raised to 25 ft, moved to 125 ft, lowered to 20 ft and delivered for 100 points. Holding pickup/release left the score at 0 until release, which counted once. Separate touch checks confirmed blocked travel below clearance, cancellation, and restart | Pass in Chromium emulation |
 
-### Display and responsive layout
+### Display, accessibility, reduced motion, and standalone use
 
-- At 74, 75, and 76 ft, compare the numerical capacity, utilization, and status with the hand calculations. Verify that the chart uses stepwise capacity, has labeled axes, and places its capacity and suspended-load markers at values matching the readouts.
-- At 76 ft with a 12,000 lb load, verify tip-over ends play and preserves the final radius, load, capacity, utilization, and chart markers.
-- Verify the active delivery target, load queue, delivery progress, timer, and score reflect the current game state.
-- Check desktop and mobile layouts, including no horizontal scrolling, visible mobile radius/utilization/status near the simulation, readable chart labels, and controls that do not obscure the scene.
-- Verify warning and win/loss messages use text and icons as well as color, and are available to assistive technology.
+| Test | Expected | Actual | Status and notes |
+|---|---|---|---|
+| Chart steps and axes | Equal radius intervals, labeled axes, and horizontal conservative capacity steps with correct endpoints | Ticks at 50, 75, 100, 125, and 150 ft occupied x = 68, 150, 232, 314, and 396. The chart had the 50 ft endpoint and four horizontal segments with open left and closed right endpoints. The axis labels were “Operating radius (ft)” and “Load / capacity (lb)” | Pass |
+| Numerical/chart agreement | At 74/75/76 ft, capacity, suspended-load markers, and condition agree with the hand cases | At all three radii the chart guide and markers matched the numerical readouts and chart labels. The capacity marker moved from 13,000 to 9,000 lb on the step to 76 ft. The load marker remained at 12,000 lb and was hidden after reset | Pass |
+| Frozen overload display | Preserve radius, capacity, suspended load, utilization, and chart markers until reset | The panel and readouts retained 76 ft, 9,000 lb, 12,000 lb, and 133.33%. Chart marker coordinates and labels stayed fixed, as did the earned score | Pass |
+| Live scene and progress | Active target, ordered load queue, labels, delivered materials, progress, time, and score follow play | Targets and staging advanced from A to B to C, the empty queue heading cleared, and delivered material appeared at each target. Progress advanced 0/3 to 3/3 and matched score. Delivered labels fit their desktop cards after the correction | Pass |
+| Crane drawing geometry | Cable follows one trolley and hook at 2 SVG units/ft. Painted roof and load respect the 3.5 ft clearance at a 25 ft hook. Tower structure ends at or above ground | Cable and trolley/hook coordinates matched through the radius and height sweeps. Rendered SVG geometry after correction measured load bottom y=329, roof top y=336, and tower extent at most y=365.5 | Pass on retest |
+| Desktop layouts | Side-by-side scene and readings/chart without horizontal overflow. Rulers, chart labels, callouts and guide are readable | Both desktop viewports fit with expanded readings, distinct callouts and labels, and no visible mobile dock. Inspected the 1440 × 1000 render and measured label bounds at both desktop sizes | Pass in Chromium |
+| Mobile layouts | Stack panels, keep the live dock visible and clear of the scene, use controls ≥48 × 48 CSS px, and keep the chart separately accessible | All four mobile widths fit without horizontal overflow. Scene-to-dock gaps were 39.0, 272.7, 338.6, and 250.6 CSS px in test-matrix order. The dock displayed time, position, utilization, warning status and objective. The crop kept the operating range visible, instruments started collapsed and toggled, and the separate chart labels were unobstructed within the chart | Pass in Chromium emulation |
+| Results layout and non-color cues | All three outcomes have the prescribed text, reason, and icon. Results fit without covering the crane animation, and Play Again is easily reached | Win and overload panels fit at all six viewports. The natural timeout fit at the tested mobile and resized desktop viewports. Warning used ⚠, both losses used ✕, and the win used ✓. Play Again measured at least 48 px high | Pass on retest |
+| Programmatic accessibility and keyboard focus | Warning and outcomes are exposed to assistive technology. Controls have accessible names and meaningful focus | Chromium's accessibility tree exposed the live warning and named results region with its description, the chart, and named buttons. Results took focus, Tab reached Play Again, and Space activated it and returned focus to Start | Pass for browser accessibility tree and keyboard |
+| Tip-over and reduced motion | The crane visibly tips around its base. Reduced motion shows the tipped pose and results without animation | Normal motion used the tip animation with the base fixed. Emulated reduced motion showed the static tipped pose, readable full results, and no crane animation at 320 × 568 | Pass in Chromium emulation |
+| Self-contained application and disclaimer | The HTML works alone offline, and the educational-use disclaimer remains available during play | Opened a copy of only `index.html` with networking disabled. It drew the game and chart, reached an overload through normal actions, and reset with zero resource requests. The complete disclaimer and control guides were present | Pass |
 
-### Recording test results
+### Fixes and retests
 
-For each test, record its ID or scenario, actual observed result, pass/fail status, and notes. For display or control tests, also record the browser/device and evidence when useful. All actual results and statuses are currently **Not run** because the application has not been built. Update them only after the corresponding test has genuinely been performed.
+- Delivered desktop titles initially overran their cards by 8.8–50.7 SVG units. Reduced the delivered title size, then repeated both endpoint runs and verified every delivered title fit its card.
+- Stage 4 results supplied text and color. Added the specified non-color outcome icons and rechecked the win and loss panels, keyboard/touch restart, and reduced motion.
+- The previous roof stroke extended to y=333.5 and the suspended load stroke to y=330 at loaded travel height, leaving 1.75 ft of painted clearance. Clipped the roof stroke at y=336 and included the load's outline in its height limit. Repeated the geometry measurements, layout checks, overload, and full delivery sequence. The measured painted clearance was 3.5 ft.
+
+### Manual results
+
+The user reported these results on 2026-11-23 after reviewing the Stage 5 report. Browser version and viewport were unspecified.
+
+| Test | Expected | Actual | Status |
+|---|---|---|---|
+| Personal desktop gameplay | Play the game in the intended desktop browser | The user completed a desktop gameplay walkthrough | Pass, user-reported |
+| Results panel and outcome icons | The panel and icons display correctly | The user confirmed the panel and icons displayed correctly | Pass, user-reported |
+| Delivered-load labels | Labels fit inside their callouts | The user confirmed delivered-load labels fit | Pass, user-reported |
+| Keyboard focus after restart | Focus returns to Start after restarting | The user confirmed keyboard focus behaved correctly after restart | Pass, user-reported |
+
+### Manual checks remaining
+
+| Test | Expected | Actual | Status |
+|---|---|---|---|
+| Physical phone | Touch holds, release/cancel, and Play Again feel usable. Browser chrome and safe-area insets keep the scene, dock, chart and results readable | Chromium touch and viewport emulation were tested. No Stage 5 run on a physical phone was performed | Not run |
+| Screen reader | Hear the warning and each game outcome, find the final stats, and restart with clear focus | Accessibility-tree exposure and keyboard focus were tested. No speech or actual screen-reader interaction was observed | Not run |
+| Device reduced-motion setting | The tipped crane and final results remain understandable without animation | Chromium emulated the setting. No physical-device reduced-motion check was performed | Not run |
+
+The mandatory core gameplay and all three hand-calculation cases passed local validation. The reported manual desktop checks passed. Physical-phone testing, screen-reader testing, the device reduced-motion check, and the separate Stage 5 commit remain pending.
 
 ## Out of scope
 
