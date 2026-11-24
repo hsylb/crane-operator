@@ -353,14 +353,18 @@ Focused validation on 2026-11-23 used Chromium at 1440 × 1000 desktop and 320 �
 
 Display the unused capacity at the current operating radius. Calculate \(M=C(R)-W\) in pounds, using \(W=0\) when no load is suspended. If \(M\ge 0\), display \(M\) as remaining capacity. If \(M<0\), display **Capacity exceeded by** \(-M\) **lb** alongside the final overload readings.
 
-| Radius | Suspended load | Chart capacity | Expected display |
-|---:|---:|---:|---|
-| 50 ft | None | 20,000 lb | 20,000 lb remaining |
-| 150 ft | 4,000 lb | 5,500 lb | 1,500 lb remaining |
-| 100 ft | 8,000 lb | 9,000 lb | 1,000 lb remaining |
-| 74 ft | 12,000 lb | 13,000 lb | 1,000 lb remaining |
-| 75 ft | 12,000 lb | 13,000 lb | 1,000 lb remaining |
-| 76 ft | 12,000 lb | 9,000 lb | Capacity exceeded by 3,000 lb |
+| Radius | Suspended load | Chart capacity | Expected display | Actual on desktop and mobile | Status |
+|---:|---:|---:|---|---|---|
+| 50 ft | None | 20,000 lb | 20,000 lb remaining | 20,000 lb remaining | Pass |
+| 150 ft | 4,000 lb | 5,500 lb | 1,500 lb remaining | 1,500 lb remaining | Pass |
+| 100 ft | 8,000 lb | 9,000 lb | 1,000 lb remaining | 1,000 lb remaining | Pass |
+| 74 ft | 12,000 lb | 13,000 lb | 1,000 lb remaining | 1,000 lb remaining | Pass |
+| 75 ft | 12,000 lb | 13,000 lb | 1,000 lb remaining | 1,000 lb remaining | Pass |
+| 76 ft | 12,000 lb | 9,000 lb | Capacity exceeded by 3,000 lb | Capacity exceeded by 3,000 lb | Pass |
+
+Focused Chromium checks on 2026-11-23 used 1440 × 1000 desktop and 320 × 568 emulated mobile viewports. After the 4,000 lb delivery at 125 ft, the display rose to 7,000 lb remaining. Overload preserved 76 ft, 9,000 lb capacity, 12,000 lb suspended, 133.33% utilization, 200 points, and the final chart markers. Further input left the overload readings unchanged. Play Again restored 20,000 lb remaining. The readout and results fit without horizontal overflow or scene obstruction. The mobile dock remained at least 24.6 CSS px below the scene during play.
+
+Core regression checks passed for loaded clearance, maximum allowable radius for all three loads, 92.31% warnings at 74 and 75 ft, tip-over at 76 ft, and a 300-point win. A controlled-clock attempt to deliver at the exact deadline showed the timeout panel at 0 s and preserved the 100 already-earned points.
 
 ## Build stages
 

@@ -1662,6 +1662,7 @@
                 <div class="metric">
                   <span class="metric-label">Allowable capacity</span>
                   <span id="capacity-readout" class="metric-value">20,000 lb</span>
+                  <span id="capacity-margin-readout" class="metric-note">20,000 lb remaining</span>
                 </div>
                 <div class="metric">
                   <span class="metric-label">Load utilization</span>
@@ -1756,6 +1757,7 @@
       <div class="dock-load-objective" aria-label="Load and delivery objective">
         <p>Suspended: <strong id="dock-suspended-load">None</strong> · Max radius: <strong id="dock-max-radius">N/A</strong></p>
         <p id="dock-objective">Next: A · 4,000 lb · R125 ft · H20 ft</p>
+        <p id="dock-capacity-margin">20,000 lb remaining</p>
       </div>
       <div class="dock-operating-status" aria-label="Utilization and warning status">
         <div class="dock-status-item"><span>Utilization</span><strong id="dock-utilization">0.00%</strong></div>
@@ -1829,7 +1831,7 @@
         },
         "tip-over": {
           title: "Crane Overloaded! — Game Over.",
-          reason: "The crane tipped over when the load exceeded its capacity."
+          reason: "The crane tipped over."
         },
         win: {
           title: "Congratulations! — You Win!",
@@ -1883,6 +1885,8 @@
         dockTime: document.querySelector("#dock-time"),
         score: document.querySelector("#score"),
         capacity: document.querySelector("#capacity-readout"),
+        capacityMargin: document.querySelector("#capacity-margin-readout"),
+        dockCapacityMargin: document.querySelector("#dock-capacity-margin"),
         utilization: document.querySelector("#utilization-readout"),
         dockUtilization: document.querySelector("#dock-utilization"),
         dockCondition: document.querySelector("#dock-condition"),
@@ -2055,7 +2059,9 @@
         elements.results.dataset.outcome = state.outcome;
         elements.resultsTitle.textContent = title;
         elements.resultsIcon.textContent = state.outcome === "win" ? "✓" : "✕";
-        elements.resultsReason.textContent = reason;
+        elements.resultsReason.textContent = tipped
+          ? `${elements.capacityMargin.textContent}. ${reason}`
+          : reason;
         elements.resultsScore.textContent = `${elements.score.textContent} pts`;
         elements.resultsDeliveries.textContent = `${state.deliveredCount} / ${loads.length}`;
         elements.resultsTime.textContent = `${elements.time.textContent} s`;
@@ -2248,6 +2254,12 @@
       function render() {
         const weight = state.suspendedIndex === null ? 0 : loads[state.suspendedIndex].weight;
         const capacity = capacityAt(state.radius);
+        const remainingCapacity = capacity - weight;
+        const capacityMargin = remainingCapacity < 0
+          ? `Capacity exceeded by ${(-remainingCapacity).toLocaleString()} lb`
+          : `${remainingCapacity.toLocaleString()} lb remaining`;
+        elements.capacityMargin.textContent = capacityMargin;
+        elements.dockCapacityMargin.textContent = capacityMargin;
         const utilization = (weight / capacity) * 100;
         const condition = classifyUtilization(utilization);
         const percent = `${utilization.toFixed(2)}%`;
