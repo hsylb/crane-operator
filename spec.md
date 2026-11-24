@@ -142,7 +142,8 @@ An invalid pickup or delivery leaves the load, score, and game state unchanged a
 - A tip-over animation and a visible message that the crane exceeded capacity and the game has ended. After tip-over, preserve the final operating radius, suspended load, allowable capacity, and utilization readings, and keep the chart markers at their final values until Restart.
 - Remaining time in seconds (s) and current score in points.
 - Delivery progress showing how many of the three loads have been delivered, with each load's status identified.
-- Clear feedback for invalid actions, successful deliveries, winning, and losing. State the reason for a loss, such as time expiring or tip-over.
+- Clear feedback for invalid actions and successful deliveries during play.
+- A prominent results panel when play ends. Use “Time's Up! — Game Over.” for timeout, “Crane Overloaded! — Game Over.” for overload, and “Congratulations! — You Win!” for successful completion. Show the reason play ended, final score in points, completed deliveries out of three, and remaining time in seconds. On overload, also show the final radius, allowable capacity, suspended load, and utilization in the panel. Provide a Play Again button that performs the existing Restart behavior.
 - A visible control guide for keyboard and touchscreen controls.
 - A visible disclaimer: "Educational simulation only. This assignment load chart is not a real crane chart and must not be used for actual crane operations."
 - Important warning and game-state changes available to assistive technology, not only visually.
@@ -152,6 +153,8 @@ An invalid pickup or delivery leaves the load, score, and game state unchanged a
 Use a clean, professional construction-site design with a yellow tower crane, a gray building under construction, a staging area, and clearly identified delivery targets. Use green, amber, and red status indicators accompanied by text and icons; do not rely on color alone.
 
 On desktop, place the crane simulation beside the load chart and numerical readings. Put the application title, timer, score, and delivery progress in a header. Keep the keyboard control guide near the crane simulation.
+
+Keep the results panel visible as soon as play ends on desktop and mobile, even if the player has scrolled. Place it clear of the crane scene so the tip-over animation remains visible, and use the mobile control dock's space after play ends. Use a clear heading and text to identify the outcome, move keyboard focus to the results for assistive technology, and return focus to Start after Play Again. Keep the results stable with reduced motion enabled.
 
 On mobile, stack the panels vertically without horizontal scrolling. Use a compact header and place a simplified crane scene near the top. Keep the persistent bottom control dock compact and include live operating-radius and hook-height readings, the suspended-load/next-load value, and the active delivery objective with its target letter, radius, and height. Reserve a visible utilization and operating-status/warning area in the dock for Stage 4; label those readings inactive until then. Keep these readings and the directional pad, pick-up/release, Start, and Restart controls visible without scrolling while the player operates the crane. Reserve enough space above the dock that it never covers the crane scene; keep the chart and detailed supporting readings below the operating area.
 

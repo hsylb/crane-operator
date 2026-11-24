@@ -190,29 +190,7 @@
       line-height: 1.45;
     }
 
-    .preview-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border: 1px solid #e8d491;
-      border-radius: 999px;
-      background: #fff8df;
-      color: #705400;
-      font-size: 0.67rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
 
-    .preview-badge::before {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--yellow-deep);
-      content: "";
-    }
 
     .live-strip {
       display: flex;
@@ -362,14 +340,8 @@
       font-weight: 900;
     }
 
-    .mockup-note {
-      margin: 11px 2px 0;
-      color: var(--muted);
-      font-size: 0.72rem;
-      text-align: center;
-    }
 
-    .stage3-notice {
+    .game-notice {
       margin: 0 18px 12px;
       padding: 10px 12px;
       border: 1px solid #d6e0e5;
@@ -560,12 +532,6 @@
       letter-spacing: 0;
     }
 
-    .readout-footnote {
-      margin: 12px 19px 0;
-      color: var(--muted);
-      font-size: 0.7rem;
-      line-height: 1.45;
-    }
 
     .chart-heading {
       padding-bottom: 8px;
@@ -606,12 +572,6 @@
       gap: 6px;
     }
 
-    .legend-line {
-      width: 18px;
-      height: 3px;
-      border-radius: 4px;
-      background: #d99d00;
-    }
 
     .legend-dot {
       width: 9px;
@@ -676,6 +636,114 @@
 
     .mobile-dock {
       display: none;
+    }
+
+    .mobile-dock[hidden],
+    .game-notice[hidden] {
+      display: none;
+    }
+
+    .results-panel {
+      --result-accent: #9b3028;
+      --result-tint: #fbe1df;
+      position: fixed;
+      z-index: 11;
+      right: 16px;
+      bottom: 16px;
+      width: min(390px, 38vw);
+      max-height: calc(100% - 32px);
+      overflow: auto;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--result-accent);
+      border-radius: 14px;
+      background: var(--card);
+      box-shadow: 0 8px 28px rgb(23 43 59 / 25%);
+    }
+
+    .results-panel[data-outcome="win"] {
+      --result-accent: var(--green);
+      --result-tint: var(--green-pale);
+    }
+
+    .results-panel h2 {
+      margin: 0;
+      color: var(--result-accent);
+      font-size: clamp(1.06rem, 2.1vw, 1.35rem);
+      line-height: 1.15;
+    }
+
+    .results-reason {
+      margin: 5px 0 8px;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      line-height: 1.3;
+    }
+
+    .results-summary,
+    .results-overload {
+      display: grid;
+      gap: 4px 8px;
+      margin: 0 0 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: var(--result-tint);
+    }
+
+    .results-summary {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .results-overload {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      background: var(--paper);
+    }
+
+    .results-overload[hidden] {
+      display: none;
+    }
+
+    .results-overload div {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0 5px;
+    }
+
+    .results-panel dt {
+      color: var(--ink-soft);
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    .results-panel dd {
+      margin: 0;
+      font-size: 0.9rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+    }
+
+    .results-overload dd {
+      font-size: 0.75rem;
+    }
+
+    .results-panel .button {
+      width: 100%;
+      min-height: 48px;
+    }
+
+    body:has(.results-panel:not([hidden])) {
+      padding-bottom: 18rem;
+    }
+
+    @media (max-width: 780px) {
+      .results-panel {
+        right: max(8px, env(safe-area-inset-right));
+        bottom: max(8px, env(safe-area-inset-bottom));
+        left: max(8px, env(safe-area-inset-left));
+        width: auto;
+        padding: 10px;
+      }
     }
 
     @media (max-width: 1050px) {
@@ -780,7 +848,7 @@
 
       .simulation-panel > .panel-heading,
       .simulation-panel > .live-strip,
-      .simulation-panel > .stage3-notice,
+      .simulation-panel > .game-notice,
       .simulation-panel > .mobile-keyboard-guide {
         display: none;
       }
@@ -951,10 +1019,6 @@
         font-size: 1.13rem;
       }
 
-      .readout-footnote {
-        margin: 10px 13px 0;
-        font-size: 0.66rem;
-      }
 
       .chart-figure {
         margin: 0 4px;
@@ -1208,7 +1272,82 @@
       }
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .chart-legend [hidden] { display: none; }
+
+    .chart-legend .load-dot {
+      background: #245f9e;
+      border-radius: 1px;
+      box-shadow: 0 0 0 1px #245f9e;
+    }
+
+    .live-strip[data-condition="warning"],
+    .dock-status-item[data-condition="warning"] {
+      background: #fff0c4;
+      border-color: #b97800;
+    }
+
+    .live-strip[data-condition="overload"],
+    .dock-status-item[data-condition="overload"] {
+      background: #fbe1df;
+      border-color: #b23e34;
+    }
+
+    [data-condition="warning"] :is(.live-status, .live-detail, strong) {
+      color: #704600;
+    }
+
+    [data-condition="overload"] :is(.live-status, .live-detail, strong) {
+      color: #8a261f;
+    }
+
+    [data-condition="warning"] .status-icon { background: #895700; }
+    [data-condition="overload"] .status-icon { background: #a13027; }
+
+    .site-illustration.is-tipped .crane-part {
+      transform-origin: 110px 366px;
+      transform: rotate(79deg);
+      animation: crane-tip 900ms ease-in both;
+    }
+
+    @keyframes crane-tip {
+      0% { transform: rotate(0); }
+      18% { transform: rotate(-3deg); }
+      35% { transform: rotate(10deg); }
+      85% { transform: rotate(83deg); }
+      100% { transform: rotate(79deg); }
+    }
+
+    @media (max-width: 780px) {
+      .dock-position-readings {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .dock-position {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 2px 5px;
+        padding: 3px 5px;
+      }
+
+      .dock-position-value {
+        font-size: 0.96rem;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
+      .site-illustration.is-tipped .crane-part { animation: none; }
+
+
       *,
       *::before,
       *::after {
@@ -1233,18 +1372,18 @@
         <div>
           <p class="eyebrow">Construction learning lab</p>
           <h1>Crane Operator</h1>
-          <p class="header-summary">Stage 3 movement and load-handling preview.</p>
+          <p class="header-summary">Deliver three loads before time runs out.</p>
         </div>
       </div>
 
       <section class="scoreboard" aria-label="Game summary">
         <div class="score-card">
-          <span class="score-label">Timer · Stage 4</span>
-          <span class="score-value">120 <small>sec · inactive</small></span>
+          <span class="score-label">Time remaining</span>
+          <span class="score-value"><span id="time-remaining">120</span> <small>sec</small></span>
         </div>
         <div class="score-card">
-          <span class="score-label">Score · Stage 4</span>
-          <span class="score-value">0 <small>pts · inactive</small></span>
+          <span class="score-label">Score</span>
+          <span class="score-value"><span id="score">0</span> <small>pts</small></span>
         </div>
         <div class="score-card">
           <span class="score-label">Deliveries</span>
@@ -1262,17 +1401,16 @@
               <h2 id="scene-title">Crane view</h2>
               <p class="panel-subtitle">Live crane view and work area.</p>
             </div>
-            <span class="preview-badge">Stage 3</span>
           </div>
 
           <div class="live-strip" aria-label="Current crane status">
             <div class="live-status">
               <span id="status-icon" class="status-icon" aria-hidden="true">✓</span>
-              <span id="live-status-text">READY · Stage 3 controls inactive</span>
+              <span id="live-status-text">Normal</span>
             </div>
-            <span id="live-detail" class="live-detail">Radius: 50 ft<br>Utilization: inactive</span>
+            <span id="live-detail" class="live-detail">Radius: 50 ft<br>Utilization: 0.00%</span>
           </div>
-          <p id="stage3-notice" class="stage3-notice" role="status" aria-live="polite" aria-atomic="true">Stage 3 preview. Press Start; Stage 4 timer, score, capacity, and chart are inactive.</p>
+          <p id="game-notice" class="game-notice" role="status" aria-live="polite" aria-atomic="true">Press Start to begin.</p>
           <p class="mobile-keyboard-guide">Keyboard: &larr; / &rarr; radius · &uarr; / &darr; hook · Space pick / release</p>
 
           <div class="scene-wrap">
@@ -1315,7 +1453,7 @@
                   <path d="M235 366H420" stroke="#53636b" stroke-width="7"/>
                 </g>
 
-                <g aria-label="Tower crane">
+                <g class="crane-part" aria-label="Tower crane">
                   <path d="M0 132H110V148H0Z" fill="#f4c52f" stroke="#82640b" stroke-width="3"/>
                   <path d="M8 121H110V132H8Z" fill="#e0aa17" stroke="#82640b" stroke-width="3"/>
                   <path d="M16 148h32v39H16Z" fill="#757f82" stroke="#58636a" stroke-width="3"/>
@@ -1342,7 +1480,7 @@
                     <rect class="staging-load-tag" x="114" y="302" width="90" height="23" rx="6" fill="#fff" stroke="#d7a71b" stroke-width="2"/>
                     <text id="staging-load-label" x="159" y="319" class="queue-value staging-load-label" fill="#5c470a" font-size="15" font-weight="800" text-anchor="middle">4,000 lb</text>
                   </g>
-                  <text x="190" y="294" class="ruler-label staging-label" fill="#475862" font-size="15" font-weight="800" text-anchor="middle">PICKUP · R 50 ft</text>
+                  <text x="168" y="282" class="ruler-label staging-label" fill="#475862" font-size="12" font-weight="800" text-anchor="middle">PICKUP<tspan x="168" dy="13">R 50 ft</tspan></text>
                   <path class="staging-guide" d="M208 325v19" stroke="#8a6d1d" stroke-dasharray="3 3" stroke-width="1.5"/>
                 </g>
 
@@ -1358,7 +1496,7 @@
                   </g>
                 </g>
 
-                <g aria-label="Current trolley and hook position">
+                <g class="crane-part" aria-label="Current trolley and hook position">
                   <g id="trolley-position" transform="translate(0 0)">
                     <path d="M204 142h13v13h-13Z" fill="#54646b" stroke="#263b45" stroke-width="2"/>
                     <circle cx="207" cy="141" r="4" fill="#293d47"/>
@@ -1369,7 +1507,7 @@
                 </g>
 
                 <g id="target-12000" class="delivery-target" aria-label="Delivery target for 12,000 pounds at 74 feet and 20 feet hook height">
-                  <path class="target-leader" d="M258 326V274L214 260" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
+                  <path class="target-leader" d="M258 326V274L214 260" fill="none" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
                   <circle class="target-ring" cx="258" cy="326" r="19"/>
                   <circle class="target-center" cx="258" cy="326" r="7"/>
                   <path class="target-crosshair" d="M248 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
@@ -1384,7 +1522,7 @@
                 </g>
 
                 <g id="target-8000" class="delivery-target" aria-label="Delivery target for 8,000 pounds at 99 feet and 20 feet hook height">
-                  <path class="target-leader" d="M308 326 392 260" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
+                  <path class="target-leader" d="M308 326V281L340 260" fill="none" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
                   <circle class="target-ring" cx="308" cy="326" r="19"/>
                   <circle class="target-center" cx="308" cy="326" r="7"/>
                   <path class="target-crosshair" d="M298 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
@@ -1415,13 +1553,15 @@
                   <text x="499" y="247" class="target-meta" fill="#66520e" font-size="15" font-weight="800">R 125 ft · H 20 ft</text>
                 </g>
 
-                <g id="suspended-load" display="none" aria-label="Suspended load">
-                  <path d="M-8 0v-3m16 3v-3M-8-3H8" fill="none" stroke="#344a55" stroke-width="2"/>
-                  <rect id="suspended-load-body" x="-14" y="0" width="28" height="13" rx="2" fill="#d99d00" stroke="#725500" stroke-width="2"/>
-                  <path id="suspended-load-detail" d="M-12 5H12M-8 2v9m16-9v9" fill="none" stroke="#fff0b5" stroke-width="1.5"/>
-                  <g id="suspended-load-tag">
-                    <rect x="14" y="-16" width="42" height="12" rx="3" fill="#fff3c8" stroke="#a77f10" stroke-width="1.5"/>
-                    <text id="suspended-load-label" x="35" y="-7" fill="#493800" font-size="7" font-weight="900" text-anchor="middle">4,000 lb</text>
+                <g class="crane-part">
+                  <g id="suspended-load" display="none" aria-label="Suspended load">
+                    <path d="M-8 0v-3m16 3v-3M-8-3H8" fill="none" stroke="#344a55" stroke-width="2"/>
+                    <rect id="suspended-load-body" x="-14" y="0" width="28" height="13" rx="2" fill="#d99d00" stroke="#725500" stroke-width="2"/>
+                    <path id="suspended-load-detail" d="M-12 5H12M-8 2v9m16-9v9" fill="none" stroke="#fff0b5" stroke-width="1.5"/>
+                    <g id="suspended-load-tag">
+                      <rect x="14" y="-16" width="42" height="12" rx="3" fill="#fff3c8" stroke="#a77f10" stroke-width="1.5"/>
+                      <text id="suspended-load-label" x="35" y="-7" fill="#493800" font-size="7" font-weight="900" text-anchor="middle">4,000 lb</text>
+                    </g>
                   </g>
                 </g>
 
@@ -1429,7 +1569,7 @@
                 <path d="M0 372H820" stroke="#c1cbca" stroke-width="8"/>
 
                 <g aria-label="Hook height scale from 0 to 30 feet" transform="translate(34 0)">
-                  <text x="438" y="294" class="height-ruler-title" fill="#2c6684" font-size="12" font-weight="800" text-anchor="middle">HOOK HEIGHT (ft)</text>
+                  <text x="465" y="287" class="height-ruler-title" fill="#2c6684" font-size="12" font-weight="800" text-anchor="middle">HOOK HEIGHT (ft)</text>
                   <rect x="398" y="357" width="31" height="17" fill="#f8f8f4"/>
                   <path d="M438 306V366M431 306H445M431 326H445M433 346H443M431 366H445" fill="none" stroke="#32769a" stroke-width="2.5"/>
                   <path d="M438 316H467" fill="none" stroke="#ad7e00" stroke-dasharray="4 3" stroke-width="2.5"/>
@@ -1492,22 +1632,21 @@
                 </div>
                 <div class="metric">
                   <span class="metric-label">Suspended load</span>
-                  <span id="suspended-load-readout" class="metric-value">None</span>
+                  <span id="suspended-load-readout" class="metric-value">No load suspended</span>
                 </div>
                 <div class="metric">
                   <span class="metric-label">Allowable capacity</span>
-                  <span class="metric-value">Inactive <small>Stage 4</small></span>
+                  <span id="capacity-readout" class="metric-value">20,000 lb</span>
                 </div>
                 <div class="metric">
                   <span class="metric-label">Load utilization</span>
-                  <span class="metric-value">Inactive <small>Stage 4</small></span>
+                  <span id="utilization-readout" class="metric-value">0.00%</span>
                 </div>
                 <div class="metric">
                   <span class="metric-label">Active load</span>
                   <span id="active-load-readout" class="metric-value">4,000 <small>lb next</small></span>
                 </div>
               </div>
-              <p class="readout-footnote">Capacity, utilization, warning, and chart calculations remain inactive until Stage 4.</p>
             </div>
           </details>
         </section>
@@ -1519,47 +1658,46 @@
               <h2 id="chart-title">Load chart</h2>
               <p class="panel-subtitle">Allowable capacity by operating radius</p>
             </div>
-            <span class="preview-badge">Stage 4 · Static</span>
           </div>
           <figure class="chart-figure">
-            <svg viewBox="0 0 520 245" role="img" aria-labelledby="chart-svg-title chart-svg-desc">
-              <title id="chart-svg-title">Static stepwise load chart preview</title>
-              <desc id="chart-svg-desc">A placeholder chart shows allowable capacity stepping down as radius increases. The current-radius marker is at 50 feet and 20,000 pounds. Values are not connected to game logic.</desc>
-              <g fill="none" stroke="#e5eaed" stroke-width="1">
-                <path d="M62 36H476M62 77H476M62 118H476M62 159H476M62 200H476"/>
-                <path d="M62 36V200M145 36V200M228 36V200M311 36V200M394 36V200M476 36V200"/>
+            <svg viewBox="0 0 420 255" role="img" aria-labelledby="chart-svg-title chart-svg-desc">
+              <title id="chart-svg-title">Stepwise crane load chart</title>
+              <desc id="chart-svg-desc">At 50 ft, capacity is 20,000 lb. At greater radii, use the next listed radius and its capacity.</desc>
+              <g fill="none" stroke="#e5eaed">
+                <path d="M68 36H396M68 77H396M68 118H396M68 159H396M68 200H396"/>
+                <path d="M68 36V200M150 36V200M232 36V200M314 36V200M396 36V200"/>
               </g>
-              <path d="M62 36V200H476" fill="none" stroke="#7e8b94" stroke-width="1.5"/>
-              <g fill="#65737d" font-family="system-ui, sans-serif" font-size="11">
-                <text x="54" y="204" text-anchor="end">0</text>
-                <text x="54" y="163" text-anchor="end">5,000</text>
-                <text x="54" y="122" text-anchor="end">10,000</text>
-                <text x="54" y="81" text-anchor="end">15,000</text>
-                <text x="54" y="40" text-anchor="end">20,000</text>
-                <text x="62" y="219" text-anchor="middle">50</text>
-                <text x="145" y="219" text-anchor="middle">75</text>
-                <text x="228" y="219" text-anchor="middle">100</text>
-                <text x="311" y="219" text-anchor="middle">125</text>
-                <text x="476" y="219" text-anchor="middle">150</text>
-                <text x="270" y="239" text-anchor="middle" font-weight="700">Operating radius (ft)</text>
-                <text transform="translate(15 119) rotate(-90)" text-anchor="middle" font-weight="700">Allowable capacity (lb)</text>
+              <path d="M68 36V200H396" fill="none" stroke="#7e8b94" stroke-width="1.5"/>
+              <g fill="#475862" font-family="system-ui, sans-serif" font-size="13">
+                <text x="61" y="204" text-anchor="end">0</text>
+                <text x="61" y="163" text-anchor="end">5,000</text>
+                <text x="61" y="122" text-anchor="end">10,000</text>
+                <text x="61" y="81" text-anchor="end">15,000</text>
+                <text x="61" y="40" text-anchor="end">20,000</text>
+                <text x="68" y="223" text-anchor="middle">50</text>
+                <text x="150" y="223" text-anchor="middle">75</text>
+                <text x="232" y="223" text-anchor="middle">100</text>
+                <text x="314" y="223" text-anchor="middle">125</text>
+                <text x="396" y="223" text-anchor="middle">150</text>
+                <text x="232" y="246" text-anchor="middle" font-weight="700">Operating radius (ft)</text>
+                <text transform="translate(10 119) rotate(-90)" text-anchor="middle" font-weight="700">Load / capacity (lb)</text>
               </g>
-              <path d="M62 36H65V93H145V126H228V142H311V154H476" fill="none" stroke="#d99d00" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
-              <path d="M65 36V200" stroke="#277347" stroke-dasharray="4 5" stroke-width="1.5"/>
-              <circle cx="65" cy="36" r="6" fill="#277347" stroke="white" stroke-width="2"/>
-              <rect x="76" y="42" width="94" height="22" rx="6" fill="#e8f4ec"/>
-              <text x="123" y="57" fill="#205b38" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">50 ft · 20,000 lb</text>
+              <g id="capacity-steps" stroke="#a27300" stroke-width="2.5"></g>
+              <line id="chart-radius" y1="30" y2="200" stroke="#62747e" stroke-dasharray="4 4"/>
+              <circle id="chart-capacity" r="6" fill="#277347" stroke="white" stroke-width="2"/>
+              <rect id="chart-load" width="10" height="10" rx="1" fill="#245f9e" stroke="white" stroke-width="1.5" visibility="hidden"/>
             </svg>
-            <figcaption class="chart-caption">Stage 4 preview only; not connected to the current radius or load.</figcaption>
+            <figcaption class="chart-caption">Use the capacity at the next listed radius for values between ticks. Open endpoints are excluded.</figcaption>
           </figure>
-          <div class="chart-legend" aria-label="Chart legend">
-            <span class="legend-item"><span class="legend-line" aria-hidden="true"></span>Allowable capacity</span>
-            <span class="legend-item"><span class="legend-dot" aria-hidden="true"></span>Initial radius</span>
+          <div class="chart-legend" aria-label="Current chart markers">
+            <span class="legend-item" id="chart-current-radius">50 ft</span>
+            <span class="legend-item"><span class="legend-dot" aria-hidden="true"></span><span id="chart-current-capacity">Capacity 20,000 lb</span></span>
+            <span class="legend-item" id="chart-load-key" hidden><span class="legend-dot load-dot" aria-hidden="true"></span><span id="chart-current-load"></span></span>
           </div>
         </section>
 
         <section class="panel status-legend" aria-labelledby="status-legend-title">
-          <h2 id="status-legend-title">Status key · Stage 4 inactive</h2>
+          <h2 id="status-legend-title">Status key</h2>
           <div class="legend-status-row">
             <span class="legend-status"><b aria-hidden="true"></b>Normal</span>
             <span class="legend-status warning"><b aria-hidden="true"></b>Warning</span>
@@ -1572,9 +1710,11 @@
     <p class="disclaimer">Educational simulation only. This assignment load chart is not a real crane chart and must not be used for actual crane operations.</p>
   </div>
 
+  <div id="lift-announcement" class="sr-only" role="status" aria-atomic="true"></div>
+
   <nav class="mobile-dock" aria-label="Touchscreen controls">
     <div class="dock-live-panel">
-      <div class="dock-position-readings" aria-label="Live crane position">
+      <div class="dock-position-readings" aria-label="Time and crane position">
         <div class="dock-position">
           <span class="dock-position-label">Radius</span>
           <strong class="dock-position-value"><span id="dock-radius">50</span> <small>ft</small></strong>
@@ -1583,17 +1723,21 @@
           <span class="dock-position-label">Hook height</span>
           <strong class="dock-position-value"><span id="dock-height">0</span> <small>ft</small></strong>
         </div>
+        <div class="dock-position">
+          <span class="dock-position-label">Time</span>
+          <strong class="dock-position-value"><span id="dock-time">120</span> <small>s</small></strong>
+        </div>
       </div>
       <div class="dock-load-objective" aria-label="Load and delivery objective">
         <p>Suspended: <strong id="dock-suspended-load">None</strong></p>
         <p id="dock-objective">Next: A · 4,000 lb · R125 ft · H20 ft</p>
       </div>
       <div class="dock-operating-status" aria-label="Utilization and warning status">
-        <div class="dock-status-item"><span>Utilization</span><strong>Inactive · Stage 4</strong></div>
-        <div class="dock-status-item"><span>Status</span><strong>Inactive · Stage 4</strong></div>
+        <div class="dock-status-item"><span>Utilization</span><strong id="dock-utilization">0.00%</strong></div>
+        <div class="dock-status-item" id="dock-condition"><span>Status</span><strong id="dock-status">✓ Normal</strong></div>
       </div>
       <p class="mobile-keyboard-guide">Keys: &larr; / &rarr; radius · &uarr; / &darr; hook · Space pick / release</p>
-      <p id="mobile-dock-notice" class="mobile-dock-notice" role="status" aria-live="polite" aria-atomic="true">Stage 3 preview. Press Start; Stage 4 timer, score, capacity, and chart are inactive.</p>
+      <p id="mobile-dock-notice" class="mobile-dock-notice" role="status" aria-live="polite" aria-atomic="true">Press Start to begin.</p>
     </div>
     <div class="dock-controls">
       <div class="dock-directional" aria-label="Directional controls">
@@ -1609,6 +1753,23 @@
       </div>
     </div>
   </nav>
+  <section id="game-results" class="results-panel" aria-labelledby="results-title"
+    aria-describedby="results-reason" tabindex="-1" hidden>
+    <h2 id="results-title"></h2>
+    <p id="results-reason" class="results-reason"></p>
+    <dl class="results-summary">
+      <div><dt>Final score</dt><dd id="results-score"></dd></div>
+      <div><dt>Deliveries</dt><dd id="results-deliveries"></dd></div>
+      <div><dt>Time remaining</dt><dd id="results-time"></dd></div>
+    </dl>
+    <dl id="results-overload" class="results-overload" aria-label="Final overload readings" hidden>
+      <div><dt>Radius</dt><dd id="results-radius"></dd></div>
+      <div><dt>Capacity</dt><dd id="results-capacity"></dd></div>
+      <div><dt>Suspended load</dt><dd id="results-load"></dd></div>
+      <div><dt>Utilization</dt><dd id="results-utilization"></dd></div>
+    </dl>
+    <button id="play-again" class="button button-primary" type="button">Play Again</button>
+  </section>
   <script>
     (() => {
       "use strict";
@@ -1618,13 +1779,44 @@
         { weight: 8000, radius: 99 },
         { weight: 12000, radius: 74 }
       ];
+      const loadChart = [
+        { radius: 50, capacity: 20000 },
+        { radius: 75, capacity: 13000 },
+        { radius: 100, capacity: 9000 },
+        { radius: 125, capacity: 7000 },
+        { radius: 150, capacity: 5500 }
+      ];
+      const chartCapacitySummary = loadChart.map(({ radius, capacity }) =>
+        `${capacity.toLocaleString()} pounds at ${radius} feet`).join(", ");
+      const gameDuration = 120000;
+      const statusLabels = {
+        normal: { icon: "✓", text: "Normal" },
+        warning: { icon: "⚠", text: "Capacity warning" },
+        overload: { icon: "✕", text: "Over capacity" }
+      };
+      const gameResults = {
+        timeout: {
+          title: "Time's Up! — Game Over.",
+          reason: "Time ran out before all three loads were delivered."
+        },
+        "tip-over": {
+          title: "Crane Overloaded! — Game Over.",
+          reason: "The crane tipped over because the suspended load exceeded its capacity."
+        },
+        win: {
+          title: "Congratulations! — You Win!",
+          reason: "You delivered all three loads before time ran out."
+        }
+      };
       const state = {
         radius: 50,
         height: 0,
         nextLoadIndex: 0,
         suspendedIndex: null,
         deliveredCount: 0,
-        started: false
+        phase: "ready",
+        outcome: null,
+        remainingMs: gameDuration
       };
       const mobileLayout = window.matchMedia("(max-width: 780px)");
       const keyDirections = new Set();
@@ -1637,11 +1829,44 @@
         ArrowRight: "right"
       };
       const elements = {
-        notice: document.querySelector("#stage3-notice"),
+        notice: document.querySelector("#game-notice"),
+        liftAnnouncement: document.querySelector("#lift-announcement"),
         mobileNotice: document.querySelector("#mobile-dock-notice"),
+        mobileDock: document.querySelector(".mobile-dock"),
+        scene: document.querySelector(".scene-stage"),
+        results: document.querySelector("#game-results"),
+        resultsTitle: document.querySelector("#results-title"),
+        resultsReason: document.querySelector("#results-reason"),
+        resultsScore: document.querySelector("#results-score"),
+        resultsDeliveries: document.querySelector("#results-deliveries"),
+        resultsTime: document.querySelector("#results-time"),
+        resultsOverload: document.querySelector("#results-overload"),
+        resultsRadius: document.querySelector("#results-radius"),
+        resultsCapacity: document.querySelector("#results-capacity"),
+        resultsLoad: document.querySelector("#results-load"),
+        resultsUtilization: document.querySelector("#results-utilization"),
+        playAgain: document.querySelector("#play-again"),
         statusIcon: document.querySelector("#status-icon"),
         statusText: document.querySelector("#live-status-text"),
         liveDetail: document.querySelector("#live-detail"),
+        liveStrip: document.querySelector(".live-strip"),
+        time: document.querySelector("#time-remaining"),
+        dockTime: document.querySelector("#dock-time"),
+        score: document.querySelector("#score"),
+        capacity: document.querySelector("#capacity-readout"),
+        utilization: document.querySelector("#utilization-readout"),
+        dockUtilization: document.querySelector("#dock-utilization"),
+        dockCondition: document.querySelector("#dock-condition"),
+        dockStatus: document.querySelector("#dock-status"),
+        capacitySteps: document.querySelector("#capacity-steps"),
+        chartDescription: document.querySelector("#chart-svg-desc"),
+        chartRadius: document.querySelector("#chart-radius"),
+        chartCapacity: document.querySelector("#chart-capacity"),
+        chartLoad: document.querySelector("#chart-load"),
+        chartCurrentRadius: document.querySelector("#chart-current-radius"),
+        chartCurrentCapacity: document.querySelector("#chart-current-capacity"),
+        chartCurrentLoad: document.querySelector("#chart-current-load"),
+        chartLoadKey: document.querySelector("#chart-load-key"),
         radiusReadout: document.querySelector("#radius-readout"),
         heightReadout: document.querySelector("#height-readout"),
         suspendedReadout: document.querySelector("#suspended-load-readout"),
@@ -1678,6 +1903,9 @@
         [8000, document.querySelector("#target-8000")],
         [12000, document.querySelector("#target-12000")]
       ]);
+      let deadline = 0;
+      let countdownTimer = null;
+      let lastCondition = "normal";
       let movementTimer = null;
       let nextMovementAt = 0;
       let feedbackTimer = null;
@@ -1703,20 +1931,142 @@
           || Array.from(pointerDirections.values()).includes(direction);
       }
 
+      function capacityAt(radius) {
+        if (!Number.isInteger(radius) || radius < 50 || radius > 150) {
+          throw new RangeError("Operating radius must be a whole foot from 50 to 150.");
+        }
+        return loadChart.find(row => radius <= row.radius).capacity;
+      }
+
+      function classifyUtilization(utilization) {
+        if (utilization > 100) return "overload";
+        if (utilization >= 90) return "warning";
+        return "normal";
+      }
+
+      function chartX(radius) {
+        return 68 + (radius - 50) * (328 / 100);
+      }
+
+      function chartY(weight) {
+        return 200 - weight * (164 / 20000);
+      }
+
+      function drawCapacitySteps() {
+        let previousRadius = null;
+        for (const { radius, capacity } of loadChart) {
+          const x = chartX(radius);
+          const y = chartY(capacity);
+          if (previousRadius !== null) {
+            const startX = chartX(previousRadius);
+            elements.capacitySteps.insertAdjacentHTML("beforeend",
+              `<path d="M${startX} ${y}H${x}"/><circle cx="${startX}" cy="${y}" r="3" fill="white"/>`);
+          }
+          elements.capacitySteps.insertAdjacentHTML("beforeend",
+            `<circle cx="${x}" cy="${y}" r="3" fill="#a27300"/>`);
+          previousRadius = radius;
+        }
+      }
+
+      function updateChart(capacity, weight) {
+        const x = chartX(state.radius);
+        elements.chartRadius.setAttribute("x1", x);
+        elements.chartRadius.setAttribute("x2", x);
+        elements.chartCapacity.setAttribute("cx", x);
+        elements.chartCapacity.setAttribute("cy", chartY(capacity));
+        elements.chartLoad.setAttribute("visibility", weight ? "visible" : "hidden");
+        elements.chartLoad.setAttribute("x", x - 5);
+        elements.chartLoad.setAttribute("y", chartY(weight) - 5);
+        elements.chartLoadKey.hidden = weight === 0;
+        elements.chartCurrentRadius.textContent = `${state.radius} ft`;
+        elements.chartCurrentCapacity.textContent = `Capacity ${capacity.toLocaleString()} lb`;
+        elements.chartCurrentLoad.textContent = `Suspended ${weight.toLocaleString()} lb`;
+        elements.chartDescription.textContent =
+          `Listed capacities are ${chartCapacitySummary}. Current radius ${state.radius} feet, capacity ${capacity.toLocaleString()} pounds. ` +
+          (weight ? `Suspended load ${weight.toLocaleString()} pounds.` : "No load suspended.");
+      }
+
+      function updateTimeReadings() {
+        const seconds = String(Math.ceil(state.remainingMs / 1000));
+        if (elements.time.textContent === seconds) return;
+        elements.time.textContent = seconds;
+        elements.dockTime.textContent = seconds;
+      }
+
+      function stopCountdown() {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+
+      function checkTime() {
+        if (state.phase !== "running") return false;
+        state.remainingMs = Math.max(0, deadline - performance.now());
+        updateTimeReadings();
+        if (state.remainingMs > 0) return true;
+        endGame("timeout");
+        render();
+        return false;
+      }
+
+      function endGame(outcome) {
+        state.phase = "ended";
+        state.outcome = outcome;
+        stopCountdown();
+        stopAllInputs();
+        clearFeedback();
+        elements.notice.hidden = true;
+        elements.mobileDock.hidden = true;
+      }
+
+      function showResults() {
+        const { title, reason } = gameResults[state.outcome];
+        const tipped = state.outcome === "tip-over";
+        elements.results.dataset.outcome = state.outcome;
+        elements.resultsTitle.textContent = title;
+        elements.resultsReason.textContent = reason;
+        elements.resultsScore.textContent = `${elements.score.textContent} pts`;
+        elements.resultsDeliveries.textContent = `${state.deliveredCount} / ${loads.length}`;
+        elements.resultsTime.textContent = `${elements.time.textContent} s`;
+        elements.resultsOverload.hidden = !tipped;
+        if (tipped) {
+          elements.resultsRadius.textContent = `${state.radius} ft`;
+          elements.resultsCapacity.textContent = elements.capacity.textContent;
+          elements.resultsLoad.textContent = elements.suspendedReadout.textContent;
+          elements.resultsUtilization.textContent = elements.utilization.textContent;
+        }
+        elements.results.hidden = false;
+
+        if (tipped) {
+          const scene = elements.scene.getBoundingClientRect();
+          const visibleBottom = mobileLayout.matches
+            ? elements.results.getBoundingClientRect().top
+            : window.innerHeight;
+          if (scene.top < 0 || scene.bottom > visibleBottom) {
+            elements.scene.scrollIntoView({ block: "start", behavior: "instant" });
+          }
+        }
+        elements.results.focus({ preventScroll: true });
+      }
+
+      function clearFeedback() {
+        clearTimeout(feedbackTimer);
+        feedbackTimer = null;
+        lastFeedback = "";
+      }
+
       function defaultNotice() {
-        return state.started
-          ? "Stage 3 preview active. Timer, score, capacity warnings, tip-over, and chart are Stage 4."
-          : "Stage 3 preview. Press Start; Stage 4 timer, score, capacity, and chart are inactive.";
+        return state.phase === "running"
+          ? "Deliver each load to its highlighted target."
+          : "Press Start to begin.";
       }
 
       function showFeedback(message) {
-        if (message === lastFeedback) return;
+        if (state.phase === "ended" || message === lastFeedback) return;
+        clearFeedback();
         lastFeedback = message;
         setNotice(message);
-        if (feedbackTimer !== null) clearTimeout(feedbackTimer);
         feedbackTimer = window.setTimeout(() => {
-          lastFeedback = "";
-          feedbackTimer = null;
+          clearFeedback();
           setNotice(defaultNotice());
         }, 3500);
       }
@@ -1746,7 +2096,7 @@
           group.classList.toggle("is-active", active);
           group.classList.toggle("is-delivered", delivered);
           group.querySelector(".delivered-material").style.display =
-            delivered ? "" : "none";
+            delivered ? "inline" : "none";
           const title = group.querySelector(".target-title");
           title.textContent = delivered
             ? `DELIVERED · ${weight.toLocaleString()} lb`
@@ -1822,7 +2172,7 @@
         elements.dockRadius.textContent = String(state.radius);
         elements.dockHeight.textContent = String(state.height);
         elements.suspendedReadout.textContent = state.suspendedIndex === null
-          ? "None"
+          ? "No load suspended"
           : `${loads[state.suspendedIndex].weight.toLocaleString()} lb`;
         elements.dockSuspendedLoad.textContent = state.suspendedIndex === null
           ? "None"
@@ -1842,27 +2192,55 @@
         }
         elements.deliveryProgress.innerHTML =
           `${state.deliveredCount} <small>/ 3</small>`;
-        elements.liveDetail.innerHTML =
-          `Radius: ${state.radius} ft<br>Utilization: inactive`;
-        elements.statusText.textContent = state.started
-          ? "RUNNING · Stage 3"
-          : "READY";
-        elements.statusIcon.textContent = state.started ? "▶" : "✓";
+        elements.score.textContent = String(state.deliveredCount * 100);
+        updateTimeReadings();
         elements.directionButtons.forEach(button => {
-          button.disabled = !state.started;
+          button.disabled = state.phase !== "running";
         });
         elements.pickupButtons.forEach(button => {
-          button.disabled = !state.started
+          button.disabled = state.phase !== "running"
             || (state.suspendedIndex === null && state.nextLoadIndex >= loads.length);
         });
         elements.startButtons.forEach(button => {
-          button.disabled = state.started;
+          button.disabled = state.phase !== "ready";
         });
       }
 
       function render() {
+        const weight = state.suspendedIndex === null ? 0 : loads[state.suspendedIndex].weight;
+        const capacity = capacityAt(state.radius);
+        const utilization = (weight / capacity) * 100;
+        const condition = classifyUtilization(utilization);
+        const percent = `${utilization.toFixed(2)}%`;
+        if (condition === "overload" && state.phase === "running") {
+          endGame("tip-over");
+        }
+        if (condition !== lastCondition) {
+          if (condition === "warning") {
+            elements.liftAnnouncement.textContent = `Capacity warning. Utilization is ${percent}.`;
+          } else if (lastCondition === "warning" && condition === "normal" && state.phase === "running") {
+            elements.liftAnnouncement.textContent = "Capacity warning cleared.";
+          } else {
+            elements.liftAnnouncement.textContent = "";
+          }
+          lastCondition = condition;
+        }
+
+        const status = statusLabels[condition];
+        elements.liveStrip.dataset.condition = condition;
+        elements.dockCondition.dataset.condition = condition;
+        elements.statusText.textContent = condition === "warning" ? `${status.text} · ${percent}` : status.text;
+        elements.statusIcon.textContent = status.icon;
+        elements.dockStatus.textContent = `${status.icon} ${condition === "warning" ? "Warning" : status.text}`;
+        elements.liveDetail.innerHTML = `Radius: ${state.radius} ft<br>Utilization: ${percent}`;
+        elements.capacity.textContent = `${capacity.toLocaleString()} lb`;
+        elements.utilization.textContent = percent;
+        elements.dockUtilization.textContent = percent;
+        elements.siteIllustration.classList.toggle("is-tipped", state.outcome === "tip-over");
+        updateChart(capacity, weight);
         updateScene();
         updateReadings();
+        if (state.outcome && elements.results.hidden) showResults();
       }
 
       function clearDirection(direction) {
@@ -1899,7 +2277,7 @@
       }
 
       function moveOneStep() {
-        if (!state.started) return;
+        if (!checkTime()) return;
         const vertical = getAxisDirection("up", "down");
         const horizontal = getAxisDirection("right", "left");
         let changed = false;
@@ -1957,7 +2335,7 @@
       }
 
       function beginDirection(direction, source) {
-        if (!state.started || !directionNames.includes(direction)) return;
+        if (state.phase !== "running" || !directionNames.includes(direction)) return;
         const alreadyHeld = hasHeldDirections();
         if (source.type === "key") {
           if (keyDirections.has(direction)) return;
@@ -1992,9 +2370,11 @@
       }
 
       function startGame() {
-        if (state.started) return;
-        state.started = true;
-        showFeedback("Stage 3 controls active. Timer, score, capacity warnings, tip-over, and chart are Stage 4.");
+        if (state.phase !== "ready") return;
+        state.phase = "running";
+        deadline = performance.now() + gameDuration;
+        countdownTimer = window.setInterval(checkTime, 100);
+        setNotice(defaultNotice());
         render();
       }
 
@@ -2005,23 +2385,23 @@
         state.nextLoadIndex = 0;
         state.suspendedIndex = null;
         state.deliveredCount = 0;
-        state.started = false;
-        if (feedbackTimer !== null) {
-          clearTimeout(feedbackTimer);
-          feedbackTimer = null;
-        }
-        lastFeedback = "";
-        setNotice(`Restarted. ${defaultNotice()}`);
+        state.phase = "ready";
+        state.outcome = null;
+        state.remainingMs = gameDuration;
+        deadline = 0;
+        stopCountdown();
+        clearFeedback();
+        elements.liftAnnouncement.textContent = "";
+        elements.results.hidden = true;
+        elements.notice.hidden = false;
+        elements.mobileDock.hidden = false;
+        setNotice("Restarted. Press Start to begin.");
         render();
       }
 
       function pickupOrDeliver() {
-        if (!state.started) return;
+        if (!checkTime()) return;
         if (state.suspendedIndex === null) {
-          if (state.nextLoadIndex >= loads.length) {
-            showFeedback("All three loads have been delivered. Press Restart to run the Stage 3 preview again.");
-            return;
-          }
           if (state.radius < 50 || state.radius > 51 || state.height < 0 || state.height > 1) {
             showFeedback("Pickup requires radius 50–51 ft and hook height 0–1 ft.");
             return;
@@ -2044,7 +2424,7 @@
         state.nextLoadIndex += 1;
         state.deliveredCount += 1;
         if (state.deliveredCount === loads.length) {
-          showFeedback("All loads delivered. Stage 4 win and score are inactive; press Restart.");
+          endGame("win");
         } else {
           showFeedback(`Delivered the ${load.weight.toLocaleString()} lb load. The next load is ${loads[state.nextLoadIndex].weight.toLocaleString()} lb.`);
         }
@@ -2054,12 +2434,17 @@
       let spaceHeld = false;
       elements.startButtons.forEach(button => button.addEventListener("click", startGame));
       elements.restartButtons.forEach(button => button.addEventListener("click", restartGame));
+      elements.playAgain.addEventListener("click", () => {
+        restartGame();
+        const startButton = elements.startButtons.find(button => button.getClientRects().length);
+        startButton.focus();
+      });
       elements.pickupButtons.forEach(button => button.addEventListener("click", pickupOrDeliver));
 
       elements.directionButtons.forEach(button => {
         const direction = button.dataset.direction;
         button.addEventListener("pointerdown", event => {
-          if (!state.started) return;
+          if (state.phase !== "running") return;
           event.preventDefault();
           button.setPointerCapture(event.pointerId);
           beginDirection(direction, { type: "pointer", id: event.pointerId });
@@ -2070,7 +2455,7 @@
           });
         }
         button.addEventListener("click", event => {
-          if (event.detail === 0 && state.started) {
+          if (event.detail === 0 && state.phase === "running") {
             beginDirection(direction, { type: "key", id: `button-${direction}` });
             endDirection(direction, { type: "key", id: `button-${direction}` });
           }
@@ -2079,15 +2464,15 @@
 
       window.addEventListener("keydown", event => {
         const direction = directionKeys[event.key];
-        if (direction && state.started) {
+        if (direction && state.phase === "running") {
           event.preventDefault();
           if (!event.repeat) beginDirection(direction, { type: "key", id: event.key });
           return;
         }
-        if (event.code === "Space" && state.started && !event.repeat
-          && !(event.target instanceof HTMLButtonElement)) {
+        if (event.code === "Space" && state.phase === "running"
+          && !(event.target instanceof Element && event.target.closest(".restart-button"))) {
           event.preventDefault();
-          if (!spaceHeld) {
+          if (!event.repeat && !spaceHeld) {
             spaceHeld = true;
             pickupOrDeliver();
           }
@@ -2107,6 +2492,7 @@
 
       mobileLayout.addEventListener("change", syncResponsiveLayout);
       syncResponsiveLayout();
+      drawCapacitySteps();
       render();
     })();
   </script>
