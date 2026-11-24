@@ -119,3 +119,25 @@
 - Asked to add the approved app overview after the title, append the six build stages, and fill missing planning entries without duplicating existing prompt-log entries.
 - Added the overview and build stages to `spec.md`, added the missing final consistency review entry, and retained the existing staged-planning entries without duplication.
 - Outcome: only planning and prompt-log documentation changed; no application code or tests were touched, and no commit was made.
+
+## 2026-11-23
+
+- Asked to read `AGENTS.md` and the complete `spec.md`, then build only Stage 1 as a self-contained static page-layout mockup in `index.html`, with no gameplay behavior and no commit.
+- Created the responsive construction-themed page shell with header metrics, a crane-scene placeholder, live status strip, static chart and readings, keyboard guide, Start/Restart controls, and a mobile touch-control dock. Added this prompt-log entry.
+- Checked the rendered page at 320, 360, 390, 780, 781, and 1440 px widths. Corrected a small-screen scoreboard overflow and reduced the scene placeholder slightly at 320 px so the fixed dock does not cover it. The final layout has no horizontal overflow; mobile status, keyboard guide, scene, and dock fit as intended, while desktop uses the two-column layout.
+- Outcome: the Stage 1 mockup works as a static page. Controls and values are presentation-only, with no movement, load handling, calculations, timer, or scoring logic. No Stage 2 work or commit was performed.
+
+### Git repository setup correction
+
+During the initial project setup, I accidentally created a nested crane-operator folder and initialized Git inside it. My initial commit therefore contained empty project files rather than the actual initial specification.
+
+I discovered this issue when attempting to commit the revised specification. I moved the existing .git directory into the correct project folder and preserved the original commit history.
+
+The specification and prompt log were not lost. The prompt log documents the actual section-by-section planning and revision process. This correction was completed before beginning application development.
+
+## 2026-11-23
+
+- **User-reported visual check:** The user opened the Stage 1 mockup, reviewed the desktop and simulated mobile layouts, and approved the appearance and organization. No exact viewport sizes or separate issue results were reported.
+- **Assistant checks:** Compared `index.html` with the Stage 1 acceptance criteria. Confirmed the header, static scene placeholder, live status strip, chart/readings, control guide, Start/Restart buttons, and mobile dock are present; values and buttons are static and there is no gameplay script. Browser checks at 1440, 390, and 320 px confirmed a desktop two-column layout, mobile stacking, no horizontal overflow, radius/utilization/status visibility, and no mobile-dock overlap with the scene.
+- **Outcome:** Stage 1 criteria are covered; no design changes were needed. Stage 2 and gameplay remain unstarted, no commit was made, and the full application Validation cases remain Not run.
+

@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172b3b">
+  <title>Crane Operator | Educational Simulation</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172b3b;
+      --ink-soft: #506171;
+      --muted: #71808c;
+      --paper: #f3f5f6;
+      --card: #ffffff;
+      --line: #dce2e6;
+      --yellow: #f4bf24;
+      --yellow-deep: #d99d00;
+      --green: #277347;
+      --green-pale: #e8f4ec;
+      --amber: #825a00;
+      --amber-pale: #fff4d6;
+      --shadow: 0 14px 34px rgb(23 43 59 / 7%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      padding-bottom: 0;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #2877b6;
+      outline-offset: 3px;
+    }
+
+    .page-shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 26px 34px 40px;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 230px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      background: var(--yellow);
+      color: var(--ink);
+    }
+
+    .brand-mark svg {
+      width: 31px;
+      height: 31px;
+    }
+
+    .eyebrow,
+    .panel-kicker {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 0.69rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+    }
+
+    .header-summary {
+      margin: 5px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(112px, 1fr));
+      gap: 10px;
+      width: min(490px, 54%);
+    }
+
+    .score-card {
+      min-height: 74px;
+      padding: 12px 15px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--card);
+      box-shadow: 0 4px 14px rgb(23 43 59 / 3%);
+    }
+
+    .score-label {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .score-value {
+      font-size: 1.28rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .score-value small {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(310px, 0.9fr);
+      align-items: start;
+      gap: 20px;
+    }
+
+    .left-column,
+    .right-column {
+      display: grid;
+      min-width: 0;
+      gap: 18px;
+    }
+
+    .panel {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px 22px 15px;
+    }
+
+    .panel-heading h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .panel-subtitle {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border: 1px solid #e8d491;
+      border-radius: 999px;
+      background: #fff8df;
+      color: #705400;
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .preview-badge::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--yellow-deep);
+      content: "";
+    }
+
+    .live-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 18px 14px;
+      padding: 12px 14px;
+      border: 1px solid #cfe4d5;
+      border-radius: 12px;
+      background: var(--green-pale);
+    }
+
+    .live-status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      color: #205b38;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .status-icon {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #2c8050;
+      color: white;
+      font-size: 0.83rem;
+    }
+
+    .live-detail {
+      color: #37654a;
+      font-size: 0.76rem;
+      line-height: 1.35;
+      text-align: right;
+    }
+
+    .mobile-keyboard-guide {
+      display: none;
+    }
+
+    .scene-wrap {
+      padding: 0 18px 18px;
+    }
+
+    .scene-placeholder {
+      position: relative;
+      display: grid;
+      min-height: 344px;
+      overflow: hidden;
+      place-items: center;
+      border: 1px dashed #c9d1d6;
+      border-radius: 15px;
+      background:
+        linear-gradient(180deg, #edf4f6 0%, #f6f7f6 73%, #e1e6e5 73%, #e1e6e5 100%);
+      text-align: center;
+    }
+
+    .scene-sun {
+      position: absolute;
+      top: 30px;
+      right: 11%;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #f7d976;
+      opacity: 0.75;
+    }
+
+    .scene-cloud {
+      position: absolute;
+      top: 76px;
+      left: 13%;
+      width: 78px;
+      height: 15px;
+      border-radius: 999px;
+      background: #d8e3e7;
+      opacity: 0.78;
+    }
+
+    .scene-cloud::before,
+    .scene-cloud::after {
+      position: absolute;
+      bottom: 3px;
+      border-radius: 50%;
+      background: inherit;
+      content: "";
+    }
+
+    .scene-cloud::before {
+      left: 13px;
+      width: 27px;
+      height: 27px;
+    }
+
+    .scene-cloud::after {
+      right: 12px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .scene-art {
+      position: absolute;
+      inset: 20px 4% 8px;
+      width: 92%;
+      height: calc(100% - 28px);
+      opacity: 0.43;
+    }
+
+    .scene-caption {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      max-width: 270px;
+      padding: 18px;
+      border: 1px solid rgb(255 255 255 / 82%);
+      border-radius: 16px;
+      background: rgb(255 255 255 / 82%);
+      box-shadow: 0 8px 26px rgb(23 43 59 / 7%);
+      backdrop-filter: blur(5px);
+    }
+
+    .scene-caption strong {
+      font-size: 0.98rem;
+    }
+
+    .scene-caption span {
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .scene-icon {
+      width: 42px;
+      height: 42px;
+      color: #9c7600;
+    }
+
+    .mockup-note {
+      margin: 11px 2px 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-align: center;
+    }
+
+    .control-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      padding: 17px 20px;
+    }
+
+    .keyboard-guide {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+    }
+
+    .guide-title {
+      width: 100%;
+      color: var(--muted);
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .key-instruction {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    kbd {
+      min-width: 27px;
+      padding: 4px 6px;
+      border: 1px solid #cbd4da;
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      background: #f7f9fa;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.69rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 9px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 15px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      cursor: default;
+      font-size: 0.8rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .button-primary {
+      background: var(--yellow);
+      color: #332700;
+      box-shadow: inset 0 -2px 0 rgb(125 85 0 / 14%);
+    }
+
+    .button-secondary {
+      border-color: var(--line);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .button-muted {
+      border-color: #d7dfe3;
+      background: #edf1f3;
+      color: var(--ink);
+    }
+
+    .readout-panel,
+    .chart-panel {
+      padding-bottom: 18px;
+    }
+
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0 18px;
+    }
+
+    .metric {
+      min-height: 83px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fbfcfc;
+    }
+
+    .metric-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+
+    .metric-value {
+      display: block;
+      font-size: 1.25rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 820;
+      letter-spacing: -0.045em;
+      line-height: 1.1;
+    }
+
+    .metric-value small {
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .readout-footnote {
+      margin: 12px 19px 0;
+      color: var(--muted);
+      font-size: 0.7rem;
+      line-height: 1.45;
+    }
+
+    .chart-heading {
+      padding-bottom: 8px;
+    }
+
+    .chart-figure {
+      margin: 0 12px;
+    }
+
+    .chart-figure svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .chart-caption {
+      margin: 4px 9px 0;
+      color: var(--muted);
+      font-size: 0.69rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px 17px;
+      margin: 10px 12px 0;
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-line {
+      width: 18px;
+      height: 3px;
+      border-radius: 4px;
+      background: #d99d00;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border: 2px solid white;
+      border-radius: 50%;
+      background: #277347;
+      box-shadow: 0 0 0 1px #277347;
+    }
+
+    .status-legend {
+      display: grid;
+      gap: 9px;
+      padding: 0 21px 19px;
+    }
+
+    .status-legend h2 {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .legend-status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+    }
+
+    .legend-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-status b {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .legend-status.warning b {
+      background: #c28a00;
+    }
+
+    .legend-status.overload b {
+      background: #b63a33;
+    }
+
+    .disclaimer {
+      margin: 18px 2px 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .mobile-dock {
+      display: none;
+    }
+
+    @media (max-width: 1050px) {
+      .page-shell {
+        padding-right: 22px;
+        padding-left: 22px;
+      }
+
+      .workspace {
+        grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.9fr);
+        gap: 14px;
+      }
+
+      .control-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        justify-content: flex-end;
+      }
+    }
+
+    @media (max-width: 780px) {
+      body {
+        padding-bottom: 174px;
+      }
+
+      .page-shell {
+        padding: 16px 14px 24px;
+      }
+
+      .app-header {
+        display: block;
+        margin-bottom: 13px;
+      }
+
+      .brand {
+        gap: 11px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+      }
+
+      .brand-mark svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .header-summary {
+        font-size: 0.76rem;
+      }
+
+      .scoreboard {
+        width: 100%;
+        gap: 7px;
+        margin-top: 13px;
+      }
+
+      .score-card {
+        min-height: 60px;
+        padding: 9px 10px;
+        border-radius: 12px;
+      }
+
+      .score-label {
+        font-size: 0.61rem;
+      }
+
+      .score-value {
+        font-size: 1.12rem;
+      }
+
+      .workspace {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 13px;
+      }
+
+      .left-column,
+      .right-column {
+        gap: 13px;
+      }
+
+      .panel {
+        border-radius: 16px;
+      }
+
+      .panel-heading {
+        padding: 16px 16px 12px;
+      }
+
+      .panel-heading h2 {
+        font-size: 0.98rem;
+      }
+
+      .panel-subtitle {
+        font-size: 0.72rem;
+      }
+
+      .preview-badge {
+        padding: 6px 8px;
+        font-size: 0.59rem;
+      }
+
+      .live-strip {
+        align-items: flex-start;
+        margin: 0 12px 11px;
+        padding: 10px 11px;
+      }
+
+      .live-status {
+        font-size: 0.74rem;
+      }
+
+      .live-detail {
+        max-width: 130px;
+        font-size: 0.68rem;
+      }
+
+      .mobile-keyboard-guide {
+        display: block;
+        margin: -2px 13px 10px;
+        color: var(--ink-soft);
+        font-size: 0.65rem;
+        line-height: 1.35;
+      }
+
+      .scene-wrap {
+        padding: 0 12px 12px;
+      }
+
+      .scene-placeholder {
+        min-height: 218px;
+        max-height: 240px;
+        border-radius: 12px;
+      }
+
+      .scene-caption {
+        max-width: 235px;
+        gap: 5px;
+        padding: 12px;
+      }
+
+      .scene-icon {
+        width: 34px;
+        height: 34px;
+      }
+
+      .scene-caption strong {
+        font-size: 0.87rem;
+      }
+
+      .scene-caption span {
+        font-size: 0.69rem;
+      }
+
+      .mockup-note {
+        margin-top: 8px;
+        font-size: 0.67rem;
+      }
+
+      .control-panel {
+        display: none;
+      }
+
+      .right-column {
+        display: grid;
+      }
+
+      .readout-panel {
+        order: 0;
+      }
+
+      .chart-panel {
+        order: 1;
+      }
+
+      .readout-grid {
+        gap: 8px;
+        padding: 0 12px;
+      }
+
+      .metric {
+        min-height: 72px;
+        padding: 11px;
+      }
+
+      .metric-label {
+        margin-bottom: 6px;
+        font-size: 0.65rem;
+      }
+
+      .metric-value {
+        font-size: 1.13rem;
+      }
+
+      .readout-footnote {
+        margin: 10px 13px 0;
+        font-size: 0.66rem;
+      }
+
+      .chart-figure {
+        margin: 0 4px;
+      }
+
+      .chart-caption {
+        font-size: 0.65rem;
+      }
+
+      .status-legend {
+        padding-right: 14px;
+        padding-left: 14px;
+      }
+
+      .disclaimer {
+        margin-top: 14px;
+        font-size: 0.66rem;
+      }
+
+      .mobile-dock {
+        position: fixed;
+        z-index: 10;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: grid;
+        grid-template-columns: minmax(138px, 0.95fr) minmax(0, 1.3fr);
+        align-items: center;
+        gap: 10px;
+        padding: 10px max(13px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)) max(13px, env(safe-area-inset-right));
+        border-top: 1px solid #d5dde1;
+        background: rgb(255 255 255 / 97%);
+        box-shadow: 0 -8px 24px rgb(23 43 59 / 10%);
+        backdrop-filter: blur(12px);
+      }
+
+      .dock-directional {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(36px, 1fr));
+        grid-template-rows: repeat(2, 39px);
+        gap: 4px;
+        align-items: stretch;
+      }
+
+      .dock-directional .button {
+        min-height: 39px;
+        padding: 0;
+        border-color: #d5dde1;
+        background: #f6f8f9;
+        font-size: 1.04rem;
+      }
+
+      .dock-directional .button:first-child {
+        grid-column: 2;
+      }
+
+      .dock-directional .button:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .dock-directional .button:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+      }
+
+      .dock-directional .button:nth-child(4) {
+        grid-column: 3;
+        grid-row: 2;
+      }
+
+      .dock-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+      }
+
+      .dock-actions .button {
+        min-height: 39px;
+        padding: 0 8px;
+        font-size: 0.68rem;
+      }
+
+      .dock-actions .pickup-button {
+        grid-column: 1 / -1;
+        min-height: 35px;
+        background: #eef2f4;
+        color: var(--ink);
+      }
+
+      .dock-label {
+        grid-column: 1 / -1;
+        margin: 0 0 1px;
+        color: var(--muted);
+        font-size: 0.59rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+
+    @media (max-width: 370px) {
+      .page-shell {
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+
+      .scoreboard {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .score-card {
+        min-width: 0;
+        padding-right: 7px;
+        padding-left: 7px;
+      }
+
+      .live-strip {
+        gap: 7px;
+      }
+
+      .scene-placeholder {
+        min-height: 190px;
+      }
+
+      .live-detail {
+        max-width: 112px;
+      }
+
+      .mobile-keyboard-guide {
+        margin-right: 11px;
+        margin-left: 11px;
+        font-size: 0.62rem;
+      }
+
+      .mobile-dock {
+        grid-template-columns: minmax(126px, 0.9fr) minmax(0, 1.2fr);
+        gap: 7px;
+        padding-right: 9px;
+        padding-left: 9px;
+      }
+
+      .dock-actions .button {
+        padding-right: 5px;
+        padding-left: 5px;
+        font-size: 0.63rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M7 10h27M12 10l5 24m0-24 5 24m-9-18h11m-9 7h6m-2-13v24m0-24 8 4m-8 0h8m-8 0v5m8-5v5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"/>
+            <path d="M26 14v4m-2 0h4m-9 16h-5m9 0h-5" stroke="currentColor" stroke-linecap="round" stroke-width="2.4"/>
+          </svg>
+        </div>
+        <div>
+          <p class="eyebrow">Construction learning lab</p>
+          <h1>Crane Operator</h1>
+          <p class="header-summary">Plan each lift. Watch the load chart.</p>
+        </div>
+      </div>
+
+      <section class="scoreboard" aria-label="Game summary">
+        <div class="score-card">
+          <span class="score-label">Time remaining</span>
+          <span class="score-value">120 <small>sec</small></span>
+        </div>
+        <div class="score-card">
+          <span class="score-label">Score</span>
+          <span class="score-value">0 <small>pts</small></span>
+        </div>
+        <div class="score-card">
+          <span class="score-label">Deliveries</span>
+          <span class="score-value">0 <small>/ 3</small></span>
+        </div>
+      </section>
+    </header>
+
+    <main class="workspace">
+      <div class="left-column">
+        <section class="panel simulation-panel" aria-labelledby="scene-title">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">01 / Simulation</p>
+              <h2 id="scene-title">Crane view</h2>
+              <p class="panel-subtitle">A clear view of your current lift and work area.</p>
+            </div>
+            <span class="preview-badge">Layout preview</span>
+          </div>
+
+          <div class="live-strip" aria-label="Current crane status">
+            <div class="live-status">
+              <span class="status-icon" aria-hidden="true">✓</span>
+              <span>READY · Normal operation</span>
+            </div>
+            <span class="live-detail">Radius: 50 ft<br>Utilization: 0.00%</span>
+          </div>
+          <p class="mobile-keyboard-guide">Keyboard: &larr; / &rarr; radius · &uarr; / &darr; hook · Space pick / release</p>
+
+          <div class="scene-wrap">
+            <div class="scene-placeholder" role="img" aria-label="Placeholder illustration for the crane simulation scene">
+              <span class="scene-sun" aria-hidden="true"></span>
+              <span class="scene-cloud" aria-hidden="true"></span>
+              <svg class="scene-art" viewBox="0 0 760 330" aria-hidden="true">
+                <path d="M0 279H760" stroke="#73818a" stroke-width="2"/>
+                <path d="M134 278V103h28v175m-40-175h294m-282 0 40 0m242 0 38 0m-332 0 22-24 22 24m249 0 21-24 21 24" fill="none" stroke="#b48b16" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+                <path d="M148 111 207 278m-46-167 47 167m-53-114h39m-21 56h39m-24 50h41m-90-138h34m-25 46h36m-23 45h39" fill="none" stroke="#9a7a22" stroke-linecap="round" stroke-width="4"/>
+                <path d="M237 103v18m18-18v18m18-18v18m18-18v18m18-18v18m18-18v18m18-18v18m18-18v18" stroke="#a88620" stroke-linecap="round" stroke-width="3"/>
+                <path d="M459 278V185h48v93m-48-67h48m-48 24h48m-48 23h48m-48-70 48 70m0-70-48 70" fill="none" stroke="#78858c" stroke-linejoin="round" stroke-width="4"/>
+                <path d="M529 278V220h55v58m-55-39h55m-55 20h55" fill="none" stroke="#9aa5aa" stroke-width="4"/>
+                <path d="M612 278v-41h46v41m-46-22h46m-46-19 46 41m0-41-46 41" fill="none" stroke="#aab2b5" stroke-width="4"/>
+                <path d="M0 292h760" stroke="#d0d6d5" stroke-width="9"/>
+                <path d="M321 123v66m-7 0h14m-7 0v7" fill="none" stroke="#53616a" stroke-linecap="round" stroke-width="4"/>
+                <rect x="309" y="195" width="24" height="19" rx="3" fill="#e1ae20" stroke="#7d641e" stroke-width="2"/>
+              </svg>
+              <div class="scene-caption">
+                <svg class="scene-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <path d="M5 10h38M12 10l7 31m0-31 7 31m-14-23h14m-9 10h11m-6-18v31m0-31 11 5m-11 0h11m-11 0v6m11-6v8M17 41h-7m16 0h-7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.7"/>
+                </svg>
+                <strong>Crane scene placeholder</strong>
+                <span>The detailed construction-site illustration will be added in Stage 2.</span>
+              </div>
+            </div>
+            <p class="mockup-note">Static layout mockup · displayed values and controls are not connected to gameplay.</p>
+          </div>
+        </section>
+
+        <section class="panel control-panel" aria-label="Keyboard guide and game actions">
+          <div class="keyboard-guide">
+            <span class="guide-title">Keyboard guide</span>
+            <span class="key-instruction"><kbd>←</kbd><kbd>→</kbd> Radius</span>
+            <span class="key-instruction"><kbd>↑</kbd><kbd>↓</kbd> Hook height</span>
+            <span class="key-instruction"><kbd>Space</kbd> Pick up / release</span>
+          </div>
+          <div class="action-buttons">
+            <button class="button button-primary" type="button" aria-disabled="true" title="Visual placeholder only">Start</button>
+            <button class="button button-secondary" type="button" aria-disabled="true" title="Visual placeholder only">Restart</button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="right-column" aria-label="Crane readings and load chart">
+        <section class="panel readout-panel" aria-labelledby="readout-title">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">02 / Instrument panel</p>
+              <h2 id="readout-title">Crane readings</h2>
+              <p class="panel-subtitle">Current position and lift status.</p>
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="metric">
+              <span class="metric-label">Operating radius</span>
+              <span class="metric-value">50 <small>ft</small></span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Hook height</span>
+              <span class="metric-value">0 <small>ft</small></span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Suspended load</span>
+              <span class="metric-value">None</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Allowable capacity</span>
+              <span class="metric-value">20,000 <small>lb</small></span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Load utilization</span>
+              <span class="metric-value">0.00<small>%</small></span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Active load</span>
+              <span class="metric-value">4,000 <small>lb next</small></span>
+            </div>
+          </div>
+          <p class="readout-footnote">Static initial-state placeholders; values will be connected to the simulation in later stages.</p>
+        </section>
+
+        <section class="panel chart-panel" aria-labelledby="chart-title">
+          <div class="panel-heading chart-heading">
+            <div>
+              <p class="panel-kicker">03 / Reference</p>
+              <h2 id="chart-title">Load chart</h2>
+              <p class="panel-subtitle">Allowable capacity by operating radius</p>
+            </div>
+            <span class="preview-badge">Static</span>
+          </div>
+          <figure class="chart-figure">
+            <svg viewBox="0 0 520 245" role="img" aria-labelledby="chart-svg-title chart-svg-desc">
+              <title id="chart-svg-title">Static stepwise load chart preview</title>
+              <desc id="chart-svg-desc">A placeholder chart shows allowable capacity stepping down as radius increases. The current-radius marker is at 50 feet and 20,000 pounds. Values are not connected to game logic.</desc>
+              <g fill="none" stroke="#e5eaed" stroke-width="1">
+                <path d="M62 36H476M62 77H476M62 118H476M62 159H476M62 200H476"/>
+                <path d="M62 36V200M145 36V200M228 36V200M311 36V200M394 36V200M476 36V200"/>
+              </g>
+              <path d="M62 36V200H476" fill="none" stroke="#7e8b94" stroke-width="1.5"/>
+              <g fill="#65737d" font-family="system-ui, sans-serif" font-size="11">
+                <text x="54" y="204" text-anchor="end">0</text>
+                <text x="54" y="163" text-anchor="end">5,000</text>
+                <text x="54" y="122" text-anchor="end">10,000</text>
+                <text x="54" y="81" text-anchor="end">15,000</text>
+                <text x="54" y="40" text-anchor="end">20,000</text>
+                <text x="62" y="219" text-anchor="middle">50</text>
+                <text x="145" y="219" text-anchor="middle">75</text>
+                <text x="228" y="219" text-anchor="middle">100</text>
+                <text x="311" y="219" text-anchor="middle">125</text>
+                <text x="476" y="219" text-anchor="middle">150</text>
+                <text x="270" y="239" text-anchor="middle" font-weight="700">Operating radius (ft)</text>
+                <text transform="translate(15 119) rotate(-90)" text-anchor="middle" font-weight="700">Allowable capacity (lb)</text>
+              </g>
+              <path d="M62 36H65V93H145V126H228V142H311V154H476" fill="none" stroke="#d99d00" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+              <path d="M65 36V200" stroke="#277347" stroke-dasharray="4 5" stroke-width="1.5"/>
+              <circle cx="65" cy="36" r="6" fill="#277347" stroke="white" stroke-width="2"/>
+              <rect x="76" y="42" width="94" height="22" rx="6" fill="#e8f4ec"/>
+              <text x="123" y="57" fill="#205b38" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">50 ft · 20,000 lb</text>
+            </svg>
+            <figcaption class="chart-caption">Static chart preview using the assignment values; no lookup or interpolation is implemented.</figcaption>
+          </figure>
+          <div class="chart-legend" aria-label="Chart legend">
+            <span class="legend-item"><span class="legend-line" aria-hidden="true"></span>Allowable capacity</span>
+            <span class="legend-item"><span class="legend-dot" aria-hidden="true"></span>Initial radius</span>
+          </div>
+        </section>
+
+        <section class="panel status-legend" aria-labelledby="status-legend-title">
+          <h2 id="status-legend-title">Status key</h2>
+          <div class="legend-status-row">
+            <span class="legend-status"><b aria-hidden="true"></b>Normal</span>
+            <span class="legend-status warning"><b aria-hidden="true"></b>Warning</span>
+            <span class="legend-status overload"><b aria-hidden="true"></b>Over capacity</span>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <p class="disclaimer">Educational simulation only. This assignment load chart is not a real crane chart and must not be used for actual crane operations.</p>
+  </div>
+
+  <nav class="mobile-dock" aria-label="Touchscreen controls (static preview)">
+    <div class="dock-directional" aria-label="Directional controls">
+      <button class="button" type="button" aria-label="Move up (placeholder)" aria-disabled="true">&uarr;</button>
+      <button class="button" type="button" aria-label="Move left (placeholder)" aria-disabled="true">&larr;</button>
+      <button class="button" type="button" aria-label="Move down (placeholder)" aria-disabled="true">&darr;</button>
+      <button class="button" type="button" aria-label="Move right (placeholder)" aria-disabled="true">&rarr;</button>
+    </div>
+    <div class="dock-actions">
+      <span class="dock-label">Touch controls · preview</span>
+      <button class="button pickup-button" type="button" aria-disabled="true">Pick up / release</button>
+      <button class="button button-primary" type="button" aria-disabled="true">Start</button>
+      <button class="button button-muted" type="button" aria-disabled="true">Restart</button>
+    </div>
+  </nav>
+</body>
+</html>
