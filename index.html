@@ -263,99 +263,21 @@
       padding: 0 18px 18px;
     }
 
-    .scene-placeholder {
-      position: relative;
-      display: grid;
-      min-height: 344px;
+    .scene-stage {
       overflow: hidden;
-      place-items: center;
-      border: 1px dashed #c9d1d6;
+      border: 1px solid #c9d1d6;
       border-radius: 15px;
-      background:
-        linear-gradient(180deg, #edf4f6 0%, #f6f7f6 73%, #e1e6e5 73%, #e1e6e5 100%);
-      text-align: center;
+      background: #eaf1f3;
     }
 
-    .scene-sun {
-      position: absolute;
-      top: 30px;
-      right: 11%;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: #f7d976;
-      opacity: 0.75;
+    .site-illustration {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
-    .scene-cloud {
-      position: absolute;
-      top: 76px;
-      left: 13%;
-      width: 78px;
-      height: 15px;
-      border-radius: 999px;
-      background: #d8e3e7;
-      opacity: 0.78;
-    }
-
-    .scene-cloud::before,
-    .scene-cloud::after {
-      position: absolute;
-      bottom: 3px;
-      border-radius: 50%;
-      background: inherit;
-      content: "";
-    }
-
-    .scene-cloud::before {
-      left: 13px;
-      width: 27px;
-      height: 27px;
-    }
-
-    .scene-cloud::after {
-      right: 12px;
-      width: 20px;
-      height: 20px;
-    }
-
-    .scene-art {
-      position: absolute;
-      inset: 20px 4% 8px;
-      width: 92%;
-      height: calc(100% - 28px);
-      opacity: 0.43;
-    }
-
-    .scene-caption {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      justify-items: center;
-      gap: 8px;
-      max-width: 270px;
-      padding: 18px;
-      border: 1px solid rgb(255 255 255 / 82%);
-      border-radius: 16px;
-      background: rgb(255 255 255 / 82%);
-      box-shadow: 0 8px 26px rgb(23 43 59 / 7%);
-      backdrop-filter: blur(5px);
-    }
-
-    .scene-caption strong {
-      font-size: 0.98rem;
-    }
-
-    .scene-caption span {
-      color: var(--ink-soft);
-      font-size: 0.75rem;
-      line-height: 1.45;
-    }
-
-    .scene-icon {
-      width: 42px;
-      height: 42px;
-      color: #9c7600;
+    .site-illustration text {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     }
 
     .mockup-note {
@@ -744,29 +666,48 @@
         padding: 0 12px 12px;
       }
 
-      .scene-placeholder {
-        min-height: 218px;
-        max-height: 240px;
+      .scene-stage {
+        display: grid;
+        height: min(350px, calc((100vw - 52px) * 460 / 820));
+        place-items: center;
         border-radius: 12px;
       }
 
-      .scene-caption {
-        max-width: 235px;
-        gap: 5px;
-        padding: 12px;
+      .site-illustration {
+        width: auto;
+        height: 100%;
+        max-width: 100%;
       }
 
-      .scene-icon {
-        width: 34px;
-        height: 34px;
+      .site-illustration .queue-title,
+      .site-illustration .queue-value,
+      .site-illustration .ruler-label,
+      .site-illustration .scene-note {
+        font-size: 26px;
       }
 
-      .scene-caption strong {
-        font-size: 0.87rem;
+      .site-illustration .queue-title {
+        font-size: 14px;
       }
 
-      .scene-caption span {
-        font-size: 0.69rem;
+      .site-illustration .queue-value {
+        font-size: 20px;
+      }
+
+      .site-illustration .target-title {
+        font-size: 20px;
+      }
+
+      .site-illustration .target-meta {
+        font-size: 18px;
+      }
+
+      .site-illustration .scene-note {
+        font-size: 20px;
+      }
+
+      .site-illustration .height-label {
+        font-size: 18px;
       }
 
       .mockup-note {
@@ -839,7 +780,7 @@
         bottom: 0;
         left: 0;
         display: grid;
-        grid-template-columns: minmax(138px, 0.95fr) minmax(0, 1.3fr);
+        grid-template-columns: minmax(152px, 0.95fr) minmax(0, 1.3fr);
         align-items: center;
         gap: 10px;
         padding: 10px max(13px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)) max(13px, env(safe-area-inset-right));
@@ -851,14 +792,15 @@
 
       .dock-directional {
         display: grid;
-        grid-template-columns: repeat(3, minmax(36px, 1fr));
-        grid-template-rows: repeat(2, 39px);
+        grid-template-columns: repeat(3, minmax(48px, 1fr));
+        grid-template-rows: repeat(2, 48px);
         gap: 4px;
         align-items: stretch;
       }
 
       .dock-directional .button {
-        min-height: 39px;
+        min-width: 48px;
+        min-height: 48px;
         padding: 0;
         border-color: #d5dde1;
         background: #f6f8f9;
@@ -891,14 +833,15 @@
       }
 
       .dock-actions .button {
-        min-height: 39px;
+        min-width: 48px;
+        min-height: 48px;
         padding: 0 8px;
         font-size: 0.68rem;
       }
 
       .dock-actions .pickup-button {
         grid-column: 1 / -1;
-        min-height: 35px;
+        min-height: 48px;
         background: #eef2f4;
         color: var(--ink);
       }
@@ -935,8 +878,8 @@
         gap: 7px;
       }
 
-      .scene-placeholder {
-        min-height: 190px;
+      .scene-stage {
+        height: calc((100vw - 44px) * 460 / 820);
       }
 
       .live-detail {
@@ -950,7 +893,7 @@
       }
 
       .mobile-dock {
-        grid-template-columns: minmax(126px, 0.9fr) minmax(0, 1.2fr);
+        grid-template-columns: minmax(152px, 0.9fr) minmax(110px, 1.2fr);
         gap: 7px;
         padding-right: 9px;
         padding-left: 9px;
@@ -1017,7 +960,7 @@
               <h2 id="scene-title">Crane view</h2>
               <p class="panel-subtitle">A clear view of your current lift and work area.</p>
             </div>
-            <span class="preview-badge">Layout preview</span>
+            <span class="preview-badge">Static illustration</span>
           </div>
 
           <div class="live-strip" aria-label="Current crane status">
@@ -1030,30 +973,152 @@
           <p class="mobile-keyboard-guide">Keyboard: &larr; / &rarr; radius · &uarr; / &darr; hook · Space pick / release</p>
 
           <div class="scene-wrap">
-            <div class="scene-placeholder" role="img" aria-label="Placeholder illustration for the crane simulation scene">
-              <span class="scene-sun" aria-hidden="true"></span>
-              <span class="scene-cloud" aria-hidden="true"></span>
-              <svg class="scene-art" viewBox="0 0 760 330" aria-hidden="true">
-                <path d="M0 279H760" stroke="#73818a" stroke-width="2"/>
-                <path d="M134 278V103h28v175m-40-175h294m-282 0 40 0m242 0 38 0m-332 0 22-24 22 24m249 0 21-24 21 24" fill="none" stroke="#b48b16" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
-                <path d="M148 111 207 278m-46-167 47 167m-53-114h39m-21 56h39m-24 50h41m-90-138h34m-25 46h36m-23 45h39" fill="none" stroke="#9a7a22" stroke-linecap="round" stroke-width="4"/>
-                <path d="M237 103v18m18-18v18m18-18v18m18-18v18m18-18v18m18-18v18m18-18v18m18-18v18" stroke="#a88620" stroke-linecap="round" stroke-width="3"/>
-                <path d="M459 278V185h48v93m-48-67h48m-48 24h48m-48 23h48m-48-70 48 70m0-70-48 70" fill="none" stroke="#78858c" stroke-linejoin="round" stroke-width="4"/>
-                <path d="M529 278V220h55v58m-55-39h55m-55 20h55" fill="none" stroke="#9aa5aa" stroke-width="4"/>
-                <path d="M612 278v-41h46v41m-46-22h46m-46-19 46 41m0-41-46 41" fill="none" stroke="#aab2b5" stroke-width="4"/>
-                <path d="M0 292h760" stroke="#d0d6d5" stroke-width="9"/>
-                <path d="M321 123v66m-7 0h14m-7 0v7" fill="none" stroke="#53616a" stroke-linecap="round" stroke-width="4"/>
-                <rect x="309" y="195" width="24" height="19" rx="3" fill="#e1ae20" stroke="#7d641e" stroke-width="2"/>
+            <div class="scene-stage">
+              <svg class="site-illustration" viewBox="0 0 820 460" role="img" aria-labelledby="site-title site-description" preserveAspectRatio="xMidYMid meet">
+                <title id="site-title">Tower crane and construction site layout</title>
+                <desc id="site-description">Static side-view illustration. The drawing scale is 2 SVG units per foot: crane centerline at x 110, ground at y 366, and the building roof at y 336 or 15 feet. Staging is at radius 50 feet. Delivery targets are at radii 74, 99, and 125 feet and height 20 feet. The maximum radius is 150 feet, and hook height ranges from 0 to 30 feet with ruler marks every 10 feet and at 25 feet. The current hook is at radius 50 feet and height 0 feet. The 4,000 pound target is highlighted.</desc>
+                <defs>
+                  <linearGradient id="site-sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#e7f2f6"/>
+                    <stop offset="1" stop-color="#f8f8f4"/>
+                  </linearGradient>
+                  <linearGradient id="building-face" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#e2e7e9"/>
+                    <stop offset="1" stop-color="#cfd7db"/>
+                  </linearGradient>
+                  <pattern id="building-grid" width="42" height="42" patternUnits="userSpaceOnUse">
+                    <path d="M42 0H0V42" fill="none" stroke="#b3bec3" stroke-width="1"/>
+                  </pattern>
+                  <marker id="radius-arrow" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto-start-reverse">
+                    <path d="M0 0 7 3.5 0 7Z" fill="#ad7e00"/>
+                  </marker>
+                  <filter id="active-glow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="7"/>
+                  </filter>
+                </defs>
+
+                <rect width="820" height="460" fill="url(#site-sky)"/>
+                <circle cx="744" cy="61" r="25" fill="#f3d16e" opacity=".8"/>
+                <path d="M0 283 108 213l92 54 100-77 108 89 98-68 113 72 92-58 109 64v83H0Z" fill="#dbe7e7"/>
+                <path d="M0 325 124 277l95 34 110-53 96 61 118-54 106 54 107-38 64 27v58H0Z" fill="#e5ece8"/>
+
+                <g aria-label="Building under construction">
+                  <path d="M235 366V336H420V366Z" fill="url(#building-face)" stroke="#7b898f" stroke-width="3"/>
+                  <path d="M235 336H420M235 366H420" fill="none" stroke="#65747b" stroke-width="5"/>
+                  <path d="M248 336V366M280 336V366M312 336V366M344 336V366M376 336V366M408 336V366" fill="none" stroke="#89969c" stroke-width="4"/>
+                  <path d="M236 351H419" fill="none" stroke="#f4f6f5" stroke-width="2"/>
+                  <path d="M245 339H410V363H245Z" fill="url(#building-grid)" opacity=".65"/>
+                  <path d="M242 336 257 351m0-15-15 15m44-15 15 15m0-15-15 15m44-15 15 15m0-15-15 15m44-15 15 15m0-15-15 15m44-15 15 15m0-15-15 15" fill="none" stroke="#aab5b9" stroke-width="2"/>
+                  <path d="M235 366H420" stroke="#53636b" stroke-width="7"/>
+                </g>
+
+                <g aria-label="Tower crane">
+                  <path d="M0 132H110V148H0Z" fill="#f4c52f" stroke="#82640b" stroke-width="3"/>
+                  <path d="M8 121H110V132H8Z" fill="#e0aa17" stroke="#82640b" stroke-width="3"/>
+                  <path d="M16 148h32v39H16Z" fill="#757f82" stroke="#58636a" stroke-width="3"/>
+                  <path d="M0 132h9v16H0" fill="#f8d659"/>
+                  <path d="M110 128H440V143H110Z" fill="#f4c52f" stroke="#82640b" stroke-width="3"/>
+                  <path d="M110 143H440" stroke="#82640b" stroke-width="3"/>
+                  <path d="M126 143 154 128m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15m0 15 28-15" fill="none" stroke="#9a7611" stroke-width="2"/>
+                  <path d="M105 128 115 108l10 20" fill="#f4c52f" stroke="#82640b" stroke-linejoin="round" stroke-width="3"/>
+                  <path d="M96 148H126V172H96Z" fill="#f4c52f" stroke="#82640b" stroke-width="3"/>
+                  <path d="M101 154h20v11h-20Z" fill="#c6e0e8" stroke="#58636a" stroke-width="2"/>
+                  <path d="M102 366V169m18-23v220m-18-173 18 18m-18 25 18 18m-18 25 18 18m-18 25 18 18m-18 25 18 18m-18-173-18 18m18 25-18 18m18 25-18 18m18 25-18 18m18 25-18 18" fill="none" stroke="#a77f10" stroke-width="3"/>
+                  <path d="M94 366H126m-32-14h32m-32-35h32m-32-35h32m-32-35h32m-32-35h32m-32-35h32" fill="none" stroke="#8f6e12" stroke-width="3"/>
+                  <path d="M95 366h33" stroke="#4c5a60" stroke-width="7"/>
+                  <path d="M202 143h16v10h-16Z" fill="#59666c"/>
+                  <circle cx="206" cy="153" r="4" fill="#273944"/>
+                  <circle cx="214" cy="153" r="4" fill="#273944"/>
+                </g>
+
+                <g aria-label="Staging point at 50 feet">
+                  <path d="M210 366v-7" stroke="#ad7e00" stroke-width="2"/>
+                  <circle cx="210" cy="366" r="7" fill="#f4c52f" stroke="#775c0c" stroke-width="2"/>
+                  <path d="M210 366v-6" stroke="#293b45" stroke-width="2"/>
+                  <path d="M194 351h32v13h-32Z" fill="#d79c18" stroke="#795b12" stroke-width="2"/>
+                  <path d="M191 364h38v4h-38Z" fill="#6c7374"/>
+                  <path d="M200 351v13m20-13v13" stroke="#fff1b1" stroke-width="2"/>
+                  <rect x="156" y="302" width="104" height="23" rx="6" fill="#fff" stroke="#d7a71b" stroke-width="2"/>
+                  <text x="208" y="319" class="queue-value" fill="#5c470a" font-size="18" font-weight="800" text-anchor="middle">4,000 lb</text>
+                  <text x="208" y="294" class="ruler-label" fill="#475862" font-size="15" font-weight="800" text-anchor="middle">PICKUP · R 50 ft</text>
+                  <path d="M208 325v19" stroke="#8a6d1d" stroke-dasharray="3 3" stroke-width="1.5"/>
+                </g>
+
+                <g aria-label="Remaining loads in staging queue">
+                  <text x="56" y="255" class="queue-title" fill="#42545e" font-size="16" font-weight="800" text-anchor="middle">LOAD QUEUE</text>
+                  <rect x="5" y="263" width="102" height="34" rx="7" fill="#fff" stroke="#bdc8cd" stroke-width="1.5"/>
+                  <text x="56" y="285" class="queue-value" fill="#263c48" font-size="17" font-weight="800" text-anchor="middle">8,000 lb</text>
+                  <rect x="5" y="302" width="102" height="34" rx="7" fill="#fff" stroke="#bdc8cd" stroke-width="1.5"/>
+                  <text x="56" y="324" class="queue-value" fill="#263c48" font-size="16" font-weight="800" text-anchor="middle">12,000 lb</text>
+                </g>
+
+                <g aria-label="Current trolley and hook position">
+                  <path d="M204 142h13v13h-13Z" fill="#54646b" stroke="#263b45" stroke-width="2"/>
+                  <circle cx="207" cy="141" r="4" fill="#293d47"/>
+                  <circle cx="214" cy="141" r="4" fill="#293d47"/>
+                  <path d="M210 155V352" stroke="#364a55" stroke-width="3"/>
+                  <path d="M210 352v8c0 5 4 8 8 6" fill="none" stroke="#364a55" stroke-linecap="round" stroke-width="3"/>
+                </g>
+
+                <g aria-label="Delivery target for 12,000 pounds at 74 feet and 20 feet hook height">
+                  <path d="M258 326V278" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
+                  <circle cx="258" cy="326" r="19" fill="#fff" fill-opacity=".72" stroke="#657780" stroke-width="3"/>
+                  <circle cx="258" cy="326" r="7" fill="#8a9aa0"/>
+                  <path d="M248 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
+                  <rect x="220" y="224" width="168" height="50" rx="8" fill="#fff" stroke="#89989e" stroke-width="2"/>
+                  <text x="232" y="246" class="target-title" fill="#293d47" font-size="19" font-weight="800">12,000 lb</text>
+                  <text x="232" y="265" class="target-meta" fill="#50636d" font-size="15" font-weight="700">R 74 ft · H 20 ft</text>
+                </g>
+
+                <g aria-label="Delivery target for 8,000 pounds at 99 feet and 20 feet hook height">
+                  <path d="M308 326V220" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
+                  <circle cx="308" cy="326" r="19" fill="#fff" fill-opacity=".72" stroke="#657780" stroke-width="3"/>
+                  <circle cx="308" cy="326" r="7" fill="#8a9aa0"/>
+                  <path d="M298 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
+                  <rect x="270" y="165" width="168" height="50" rx="8" fill="#fff" stroke="#89989e" stroke-width="2"/>
+                  <text x="282" y="187" class="target-title" fill="#293d47" font-size="19" font-weight="800">8,000 lb</text>
+                  <text x="282" y="206" class="target-meta" fill="#50636d" font-size="15" font-weight="700">R 99 ft · H 20 ft</text>
+                </g>
+
+                <g aria-label="Active delivery target for 4,000 pounds at 125 feet and 20 feet hook height">
+                  <path d="M360 326 377 290 394 272" fill="none" stroke="#bd8a00" stroke-dasharray="4 3" stroke-width="2.5"/>
+                  <circle cx="360" cy="326" r="27" fill="#f6c943" opacity=".38" filter="url(#active-glow)"/>
+                  <circle cx="360" cy="326" r="22" fill="#fff4cc" stroke="#bf8d00" stroke-width="4"/>
+                  <circle cx="360" cy="326" r="8" fill="#e1a900"/>
+                  <path d="M349 326h22m-11-11v22" stroke="#725500" stroke-width="2.5"/>
+                  <rect x="394" y="216" width="218" height="52" rx="9" fill="#fff3c8" stroke="#c28e00" stroke-width="3"/>
+                  <path d="M405 231h8v8h-8Z" fill="#c28e00"/>
+                  <text x="419" y="239" class="target-title" fill="#493800" font-size="19" font-weight="900">ACTIVE · 4,000 lb</text>
+                  <text x="407" y="258" class="target-meta" fill="#66520e" font-size="15" font-weight="800">R 125 ft · H 20 ft</text>
+                </g>
+
+                <g aria-label="Hook height scale from 0 to 30 feet">
+                  <path d="M438 306V366M431 306H445M433 316H443M431 326H445M433 346H443M431 366H445" fill="none" stroke="#32769a" stroke-width="2.5"/>
+                  <text x="448" y="310" class="height-label" fill="#2c6684" font-size="13" font-weight="800">30 ft</text>
+                  <text x="425" y="320" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">25 ft</text>
+                  <text x="448" y="330" class="height-label" fill="#2c6684" font-size="13" font-weight="800">20 ft</text>
+                  <text x="425" y="350" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">10 ft</text>
+                  <text x="448" y="370" class="height-label" fill="#2c6684" font-size="13" font-weight="800">0 ft</text>
+                  <text x="468" y="340" fill="#2c6684" font-size="11" font-weight="800" text-anchor="middle" transform="rotate(-90 468 340)">HOOK HEIGHT</text>
+                </g>
+
+                <g aria-label="Operating radius scale">
+                  <path d="M110 397H410" stroke="#697a82" stroke-width="2"/>
+                  <path d="M110 390V424m100-27V424m100-27V424m100-27V424" stroke="#697a82" stroke-width="2"/>
+                  <path d="M110 390H210" stroke="#ad7e00" stroke-width="3" marker-start="url(#radius-arrow)" marker-end="url(#radius-arrow)"/>
+                  <text x="160" y="382" class="ruler-label" fill="#775b0b" font-size="15" font-weight="900" text-anchor="middle">CURRENT R · 50 ft</text>
+                  <text x="110" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">0</text>
+                  <text x="210" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">50</text>
+                  <text x="310" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">100</text>
+                  <text x="410" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">150 ft max</text>
+                  <text x="650" y="441" class="scene-note" fill="#65757c" font-size="13" text-anchor="middle">Drawing scale: 2 SVG units = 1 ft</text>
+                </g>
+
+                <path d="M0 366H820" stroke="#60716d" stroke-width="5"/>
+                <path d="M0 372H820" stroke="#c1cbca" stroke-width="8"/>
               </svg>
-              <div class="scene-caption">
-                <svg class="scene-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                  <path d="M5 10h38M12 10l7 31m0-31 7 31m-14-23h14m-9 10h11m-6-18v31m0-31 11 5m-11 0h11m-11 0v6m11-6v8M17 41h-7m16 0h-7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.7"/>
-                </svg>
-                <strong>Crane scene placeholder</strong>
-                <span>The detailed construction-site illustration will be added in Stage 2.</span>
-              </div>
             </div>
-            <p class="mockup-note">Static layout mockup · displayed values and controls are not connected to gameplay.</p>
+            <p class="mockup-note">Scene positions use a consistent 2 SVG units per foot; controls and readings remain static.</p>
           </div>
         </section>
 

@@ -141,3 +141,25 @@ The specification and prompt log were not lost. The prompt log documents the act
 - **Assistant checks:** Compared `index.html` with the Stage 1 acceptance criteria. Confirmed the header, static scene placeholder, live status strip, chart/readings, control guide, Start/Restart buttons, and mobile dock are present; values and buttons are static and there is no gameplay script. Browser checks at 1440, 390, and 320 px confirmed a desktop two-column layout, mobile stacking, no horizontal overflow, radius/utilization/status visibility, and no mobile-dock overlap with the scene.
 - **Outcome:** Stage 1 criteria are covered; no design changes were needed. Stage 2 and gameplay remain unstarted, no commit was made, and the full application Validation cases remain Not run.
 
+## 2026-11-23
+
+- Repeated the request to confirm Stage 1 acceptance and record the desktop/mobile visual approval separately from assistant checks.
+- Confirmed the preceding prompt-log entry already records the user's reported approval and the assistant's measured browser checks; no design or application changes were needed.
+- Outcome: Stage 1 remains accepted, Stage 2 and gameplay remain unstarted, and no commit was made.
+
+## 2026-11-23
+
+- Asked to read `AGENTS.md` and the complete `spec.md`, then build only Stage 2 by replacing the scene placeholder with a detailed, consistently scaled, responsive construction-site illustration. No movement, load handling, calculations, score, timer, Stage 3, or commit was authorized.
+- Replaced the placeholder with a self-contained inline SVG showing the tower crane, trolley, cable, hook, 4,000 lb pickup load, ordered 8,000/12,000 lb queue, building, three labeled delivery targets, active 4,000 lb target, and radius/height guides. The drawing uses 2 SVG units per foot: `x = 110 + 2R` and `y = 366 - 2h`, preserving the approved radii/heights as it scales. Updated the scene label and retained the Stage 1 layout.
+- **Assistant checks:** Browser checks at 320, 390, 780, 781, and 1440 px found no horizontal overflow; the mobile dock does not cover the scene through the 780 px mobile breakpoint. The SVG keeps its aspect ratio, shows the approved target/height labels, and has no script or gameplay behavior.
+- **Outcome:** The Stage 2 illustration is present and responsive. Stage 3/gameplay remain unstarted; no commit was made.
+
+## 2026-11-23
+
+- **User-identified issues:** The building roof was too high for the approved drawing scale and could obstruct loaded travel; the height ruler omitted/misplaced the 10/25 ft marks; touchscreen controls were smaller than 48 px; the static load chart radius labels had uneven spacing.
+- **Corrections:** Updated `spec.md` before the implementation to set a maximum 15 ft roof, preserve a clear loaded-travel corridor for a load graphic up to 6.5 ft tall, specify the exact 0/10/20/25/30 ft ruler positions, require 48 by 48 CSS-pixel touch targets, and require equal proportional radius spacing in the actual Stage 4 chart. In `index.html`, lowered the building roof to y=336, removed the raised platform from the travel corridor, corrected the hook tip and ruler ticks, enlarged all mobile touch targets, and adjusted the responsive scene/dock spacing. Left the static chart unchanged for the Stage 4 chart implementation.
+- **Assistant testing:** Browser checks at 320x720, 360x800, 390x844, and 780x844 confirmed no horizontal overflow, no scene overlap by the dock, and all mobile dock buttons at least 48x48 CSS px. Checks at 781 px and 1440 px confirmed the desktop layout has no horizontal overflow. Verified the SVG scale/ruler coordinates and that no script or gameplay behavior was added. The static geometry gives a 3.5 ft visual gap between a 6.5 ft load under a 25 ft hook and the 15 ft roof; this is a geometry check, not a movement test.
+- **Deferred issue:** The Stage 1 static chart's 150 ft tick is farther from 125 ft than the other tick intervals; correct the radius-axis spacing when implementing the actual chart in Stage 4.
+- **Outcome:** Stage 2 geometry and touch-target corrections are recorded and checked. Stage 3/gameplay remain unstarted, no commit was made, and the static chart-spacing issue remains intentionally deferred.
+- **User visual review:** The user personally reviewed the corrected Stage 2 illustration in desktop and mobile layouts and approved the results. This is recorded separately from the assistant's browser measurements above. The load chart spacing correction remains assigned to Stage 4; Stage 3 and commits are not authorized yet.
+
