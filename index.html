@@ -280,11 +280,104 @@
       font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     }
 
+    .delivery-target {
+      opacity: 0.68;
+      transition: opacity 120ms ease;
+    }
+
+    .delivery-target.is-active {
+      opacity: 1;
+    }
+
+    .delivery-target.is-delivered {
+      opacity: 1;
+    }
+
+    .delivery-target .target-ring {
+      fill: #fff;
+      fill-opacity: 0.72;
+      stroke: #657780;
+      stroke-width: 3;
+    }
+
+    .delivery-target .target-center {
+      fill: #8a9aa0;
+    }
+
+    .delivery-target .target-label-card {
+      fill: #fff;
+      stroke: #89989e;
+      stroke-width: 2;
+    }
+
+    .delivery-target .target-letter {
+      display: none;
+    }
+
+    .delivery-target.is-active .target-ring {
+      fill: #fff4cc;
+      stroke: #bf8d00;
+      stroke-width: 4;
+    }
+
+    .delivery-target.is-active .target-center {
+      fill: #e1a900;
+    }
+
+    .delivery-target.is-active .target-label-card {
+      fill: #fff3c8;
+      stroke: #c28e00;
+      stroke-width: 3;
+    }
+
+    .delivery-target.is-delivered .target-ring {
+      fill: #e8f3eb;
+      stroke: #3b8058;
+    }
+
+    .delivery-target.is-delivered .target-center {
+      fill: #4a986a;
+    }
+
+    .delivery-target.is-delivered .target-label-card {
+      fill: #e8f3eb;
+      stroke: #3b8058;
+    }
+
+    .delivery-target.is-delivered .target-title,
+    .delivery-target.is-delivered .target-meta {
+      fill: #285d3e;
+    }
+
+    .delivery-target.is-active .target-glow {
+      opacity: 0.38;
+    }
+
+    .delivery-target .target-glow {
+      opacity: 0;
+    }
+
+    .delivery-target.is-active .target-title {
+      font-size: 15px;
+      font-weight: 900;
+    }
+
     .mockup-note {
       margin: 11px 2px 0;
       color: var(--muted);
       font-size: 0.72rem;
       text-align: center;
+    }
+
+    .stage3-notice {
+      margin: 0 18px 12px;
+      padding: 10px 12px;
+      border: 1px solid #d6e0e5;
+      border-radius: 10px;
+      background: #f5f8fa;
+      color: #435762;
+      font-size: 0.75rem;
+      line-height: 1.45;
     }
 
     .control-panel {
@@ -348,10 +441,17 @@
       padding: 0 15px;
       border: 1px solid transparent;
       border-radius: 10px;
-      cursor: default;
+      cursor: pointer;
       font-size: 0.8rem;
       font-weight: 800;
       white-space: nowrap;
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
     }
 
     .button-primary {
@@ -372,8 +472,51 @@
       color: var(--ink);
     }
 
-    .readout-panel,
+    .readout-panel {
+      padding-bottom: 0;
+    }
+
     .chart-panel {
+      padding-bottom: 18px;
+    }
+
+    .readout-summary {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto auto auto;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .readout-summary .panel-kicker {
+      grid-column: 1;
+      grid-row: 1;
+      display: block;
+    }
+
+    .readout-summary h2 {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .readout-summary .panel-subtitle {
+      grid-column: 1;
+      grid-row: 3;
+      display: block;
+    }
+
+    .readout-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .readout-toggle {
+      display: none;
+      grid-column: 2;
+      grid-row: 1 / 4;
+      align-self: center;
+    }
+
+    .readout-content {
       padding-bottom: 18px;
     }
 
@@ -557,120 +700,100 @@
 
     @media (max-width: 780px) {
       body {
-        padding-bottom: 174px;
+        padding-bottom: 270px;
       }
 
       .page-shell {
-        padding: 16px 14px 24px;
+        padding: 12px 14px 24px;
       }
 
       .app-header {
         display: block;
-        margin-bottom: 13px;
+        margin-bottom: 8px;
       }
 
       .brand {
-        gap: 11px;
+        gap: 9px;
       }
 
       .brand-mark {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
       }
 
       .brand-mark svg {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
       }
 
+      .eyebrow,
       .header-summary {
-        font-size: 0.76rem;
+        display: none;
+      }
+
+      h1 {
+        font-size: 1.18rem;
       }
 
       .scoreboard {
         width: 100%;
-        gap: 7px;
-        margin-top: 13px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        margin-top: 8px;
       }
 
       .score-card {
-        min-height: 60px;
-        padding: 9px 10px;
-        border-radius: 12px;
+        min-height: 46px;
+        padding: 6px 8px;
+        border-radius: 10px;
       }
 
       .score-label {
-        font-size: 0.61rem;
+        margin-bottom: 1px;
+        font-size: 0.5rem;
+        letter-spacing: 0.06em;
       }
 
       .score-value {
-        font-size: 1.12rem;
+        font-size: 0.98rem;
+        white-space: nowrap;
+      }
+
+      .score-value small {
+        font-size: 0.5rem;
       }
 
       .workspace {
         grid-template-columns: minmax(0, 1fr);
-        gap: 13px;
+        gap: 8px;
       }
 
       .left-column,
       .right-column {
-        gap: 13px;
+        gap: 8px;
       }
 
       .panel {
-        border-radius: 16px;
+        border-radius: 12px;
       }
 
-      .panel-heading {
-        padding: 16px 16px 12px;
-      }
-
-      .panel-heading h2 {
-        font-size: 0.98rem;
-      }
-
-      .panel-subtitle {
-        font-size: 0.72rem;
-      }
-
-      .preview-badge {
-        padding: 6px 8px;
-        font-size: 0.59rem;
-      }
-
-      .live-strip {
-        align-items: flex-start;
-        margin: 0 12px 11px;
-        padding: 10px 11px;
-      }
-
-      .live-status {
-        font-size: 0.74rem;
-      }
-
-      .live-detail {
-        max-width: 130px;
-        font-size: 0.68rem;
-      }
-
-      .mobile-keyboard-guide {
-        display: block;
-        margin: -2px 13px 10px;
-        color: var(--ink-soft);
-        font-size: 0.65rem;
-        line-height: 1.35;
+      .simulation-panel > .panel-heading,
+      .simulation-panel > .live-strip,
+      .simulation-panel > .stage3-notice,
+      .simulation-panel > .mobile-keyboard-guide {
+        display: none;
       }
 
       .scene-wrap {
-        padding: 0 12px 12px;
+        padding: 6px 6px 8px;
       }
 
       .scene-stage {
         display: grid;
-        height: min(350px, calc((100vw - 52px) * 460 / 820));
+        height: min(230px, calc((100vw - 32px) * 360 / 620));
         place-items: center;
-        border-radius: 12px;
+        border-radius: 9px;
       }
 
       .site-illustration {
@@ -679,40 +802,118 @@
         max-width: 100%;
       }
 
+      .site-illustration .target-label-card,
+      .site-illustration .target-label-icon,
+      .site-illustration .target-center,
+      .site-illustration .target-title,
+      .site-illustration .target-meta,
+      .site-illustration .target-leader,
+      .site-illustration .target-crosshair,
+      .site-illustration .scene-note,
+      .site-illustration #suspended-load-tag,
+      .site-illustration .staging-load-tag,
+      .site-illustration .staging-load-label,
+      .site-illustration .staging-label,
+      .site-illustration .staging-guide {
+        display: none;
+      }
+
+      .site-illustration .queue-card {
+        width: 88px;
+      }
+
+      .site-illustration .target-letter {
+        display: block;
+        fill: #263c48;
+        font-size: 30px;
+        font-weight: 900;
+        text-anchor: middle;
+      }
+
+      .site-illustration .delivery-target.is-active .target-letter {
+        fill: #493800;
+      }
+
+      .site-illustration .delivery-target.is-delivered .target-letter {
+        fill: #285d3e;
+      }
+
       .site-illustration .queue-title,
       .site-illustration .queue-value,
-      .site-illustration .ruler-label,
-      .site-illustration .scene-note {
-        font-size: 26px;
+      .site-illustration .ruler-label {
+        font-size: 21px;
       }
 
       .site-illustration .queue-title {
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .site-illustration .queue-value {
-        font-size: 20px;
-      }
-
-      .site-illustration .target-title {
-        font-size: 20px;
-      }
-
-      .site-illustration .target-meta {
         font-size: 18px;
-      }
-
-      .site-illustration .scene-note {
-        font-size: 20px;
       }
 
       .site-illustration .height-label {
-        font-size: 18px;
+        font-size: 17px;
       }
 
-      .mockup-note {
-        margin-top: 8px;
-        font-size: 0.67rem;
+      .site-illustration .height-unit {
+        display: none;
+      }
+
+      .site-illustration .height-ruler-title {
+        font-size: 14px;
+      }
+
+      .site-illustration .clearance-label {
+        font-size: 15px;
+      }
+
+      .readout-summary {
+        grid-template-rows: auto;
+        align-items: center;
+        padding: 11px 13px;
+      }
+
+      .readout-summary .panel-kicker,
+      .readout-summary .panel-subtitle {
+        display: none;
+      }
+
+      .readout-summary h2 {
+        grid-row: 1;
+        font-size: 0.9rem;
+      }
+
+      .readout-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--ink-soft);
+        font-size: 0.65rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .readout-toggle::before {
+        content: "Show";
+      }
+
+      .readout-toggle::after {
+        content: "+";
+        color: var(--ink);
+        font-size: 1rem;
+      }
+
+      .readout-details[open] .readout-toggle::before {
+        content: "Hide";
+      }
+
+      .readout-details[open] .readout-toggle::after {
+        content: "−";
+      }
+
+      .readout-content {
+        padding-bottom: 12px;
       }
 
       .control-panel {
@@ -782,12 +983,129 @@
         display: grid;
         grid-template-columns: minmax(152px, 0.95fr) minmax(0, 1.3fr);
         align-items: center;
-        gap: 10px;
-        padding: 10px max(13px, env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)) max(13px, env(safe-area-inset-right));
+        gap: 8px;
+        padding: 8px max(13px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(13px, env(safe-area-inset-right));
         border-top: 1px solid #d5dde1;
         background: rgb(255 255 255 / 97%);
         box-shadow: 0 -8px 24px rgb(23 43 59 / 10%);
         backdrop-filter: blur(12px);
+      }
+
+      .dock-live-panel {
+        display: grid;
+        grid-column: 1 / -1;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .dock-position-readings {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+      }
+
+      .dock-position {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        min-height: 36px;
+        padding: 4px 9px;
+        border: 1px solid #d9e0e4;
+        border-radius: 8px;
+        background: #f5f8f9;
+      }
+
+      .dock-position-label {
+        color: var(--ink-soft);
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+
+      .dock-position-value {
+        color: var(--ink);
+        font-size: 1.12rem;
+        font-variant-numeric: tabular-nums;
+        font-weight: 900;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+      }
+
+      .dock-position-value small {
+        color: var(--muted);
+        font-size: 0.62rem;
+        font-weight: 700;
+      }
+
+      .dock-load-objective {
+        display: grid;
+        gap: 1px;
+        min-width: 0;
+        color: var(--ink);
+        font-size: 0.67rem;
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+
+      .dock-load-objective p {
+        overflow-wrap: anywhere;
+        margin: 0;
+      }
+
+      .dock-operating-status {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+      }
+
+      .dock-status-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+        min-width: 0;
+        padding: 3px 6px;
+        border-radius: 6px;
+        background: #eef2f4;
+        color: var(--ink-soft);
+        font-size: 0.58rem;
+        line-height: 1.2;
+      }
+
+      .dock-status-item strong {
+        color: #4a5b65;
+        font-size: 0.58rem;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .mobile-keyboard-guide {
+        display: block;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.58rem;
+        line-height: 1.2;
+        text-align: center;
+      }
+
+      .mobile-dock-notice {
+        display: -webkit-box;
+        overflow: hidden;
+        margin: 0;
+        color: #435762;
+        font-size: 0.62rem;
+        line-height: 1.25;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+
+      .dock-controls {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(152px, 0.95fr) minmax(0, 1.3fr);
+        align-items: center;
+        gap: 8px;
       }
 
       .dock-directional {
@@ -805,6 +1123,7 @@
         border-color: #d5dde1;
         background: #f6f8f9;
         font-size: 1.04rem;
+        touch-action: none;
       }
 
       .dock-directional .button:first-child {
@@ -837,6 +1156,7 @@
         min-height: 48px;
         padding: 0 8px;
         font-size: 0.68rem;
+        touch-action: manipulation;
       }
 
       .dock-actions .pickup-button {
@@ -846,22 +1166,11 @@
         color: var(--ink);
       }
 
-      .dock-label {
-        grid-column: 1 / -1;
-        margin: 0 0 1px;
-        color: var(--muted);
-        font-size: 0.59rem;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        text-align: center;
-        text-transform: uppercase;
-      }
     }
 
     @media (max-width: 370px) {
       .page-shell {
-        padding-right: 10px;
-        padding-left: 10px;
+        padding: 12px 10px 24px;
       }
 
       .scoreboard {
@@ -879,22 +1188,15 @@
       }
 
       .scene-stage {
-        height: calc((100vw - 44px) * 460 / 820);
+        height: min(230px, calc((100vw - 32px) * 460 / 820));
       }
 
-      .live-detail {
-        max-width: 112px;
-      }
-
-      .mobile-keyboard-guide {
-        margin-right: 11px;
-        margin-left: 11px;
-        font-size: 0.62rem;
+      .dock-controls {
+        grid-template-columns: minmax(152px, 0.9fr) minmax(110px, 1.2fr);
+        gap: 6px;
       }
 
       .mobile-dock {
-        grid-template-columns: minmax(152px, 0.9fr) minmax(110px, 1.2fr);
-        gap: 7px;
         padding-right: 9px;
         padding-left: 9px;
       }
@@ -931,22 +1233,22 @@
         <div>
           <p class="eyebrow">Construction learning lab</p>
           <h1>Crane Operator</h1>
-          <p class="header-summary">Plan each lift. Watch the load chart.</p>
+          <p class="header-summary">Stage 3 movement and load-handling preview.</p>
         </div>
       </div>
 
       <section class="scoreboard" aria-label="Game summary">
         <div class="score-card">
-          <span class="score-label">Time remaining</span>
-          <span class="score-value">120 <small>sec</small></span>
+          <span class="score-label">Timer · Stage 4</span>
+          <span class="score-value">120 <small>sec · inactive</small></span>
         </div>
         <div class="score-card">
-          <span class="score-label">Score</span>
-          <span class="score-value">0 <small>pts</small></span>
+          <span class="score-label">Score · Stage 4</span>
+          <span class="score-value">0 <small>pts · inactive</small></span>
         </div>
         <div class="score-card">
           <span class="score-label">Deliveries</span>
-          <span class="score-value">0 <small>/ 3</small></span>
+          <span id="delivery-progress" class="score-value">0 <small>/ 3</small></span>
         </div>
       </section>
     </header>
@@ -958,25 +1260,26 @@
             <div>
               <p class="panel-kicker">01 / Simulation</p>
               <h2 id="scene-title">Crane view</h2>
-              <p class="panel-subtitle">A clear view of your current lift and work area.</p>
+              <p class="panel-subtitle">Live crane view and work area.</p>
             </div>
-            <span class="preview-badge">Static illustration</span>
+            <span class="preview-badge">Stage 3</span>
           </div>
 
           <div class="live-strip" aria-label="Current crane status">
             <div class="live-status">
-              <span class="status-icon" aria-hidden="true">✓</span>
-              <span>READY · Normal operation</span>
+              <span id="status-icon" class="status-icon" aria-hidden="true">✓</span>
+              <span id="live-status-text">READY · Stage 3 controls inactive</span>
             </div>
-            <span class="live-detail">Radius: 50 ft<br>Utilization: 0.00%</span>
+            <span id="live-detail" class="live-detail">Radius: 50 ft<br>Utilization: inactive</span>
           </div>
+          <p id="stage3-notice" class="stage3-notice" role="status" aria-live="polite" aria-atomic="true">Stage 3 preview. Press Start; Stage 4 timer, score, capacity, and chart are inactive.</p>
           <p class="mobile-keyboard-guide">Keyboard: &larr; / &rarr; radius · &uarr; / &darr; hook · Space pick / release</p>
 
           <div class="scene-wrap">
             <div class="scene-stage">
-              <svg class="site-illustration" viewBox="0 0 820 460" role="img" aria-labelledby="site-title site-description" preserveAspectRatio="xMidYMid meet">
+              <svg class="site-illustration" viewBox="0 55 720 405" role="img" aria-labelledby="site-title site-description" preserveAspectRatio="xMidYMid meet">
                 <title id="site-title">Tower crane and construction site layout</title>
-                <desc id="site-description">Static side-view illustration. The drawing scale is 2 SVG units per foot: crane centerline at x 110, ground at y 366, and the building roof at y 336 or 15 feet. Staging is at radius 50 feet. Delivery targets are at radii 74, 99, and 125 feet and height 20 feet. The maximum radius is 150 feet, and hook height ranges from 0 to 30 feet with ruler marks every 10 feet and at 25 feet. The current hook is at radius 50 feet and height 0 feet. The 4,000 pound target is highlighted.</desc>
+                <desc id="site-description">Interactive side view using 2 SVG units per foot. The current trolley radius and hook height are shown, along with the next pickup load, remaining queue, and active delivery target.</desc>
                 <defs>
                   <linearGradient id="site-sky" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0" stop-color="#e7f2f6"/>
@@ -998,7 +1301,7 @@
                 </defs>
 
                 <rect width="820" height="460" fill="url(#site-sky)"/>
-                <circle cx="744" cy="61" r="25" fill="#f3d16e" opacity=".8"/>
+                <circle cx="680" cy="86" r="25" fill="#f3d16e" opacity=".8"/>
                 <path d="M0 283 108 213l92 54 100-77 108 89 98-68 113 72 92-58 109 64v83H0Z" fill="#dbe7e7"/>
                 <path d="M0 325 124 277l95 34 110-53 96 61 118-54 106 54 107-38 64 27v58H0Z" fill="#e5ece8"/>
 
@@ -1023,102 +1326,134 @@
                   <path d="M105 128 115 108l10 20" fill="#f4c52f" stroke="#82640b" stroke-linejoin="round" stroke-width="3"/>
                   <path d="M96 148H126V172H96Z" fill="#f4c52f" stroke="#82640b" stroke-width="3"/>
                   <path d="M101 154h20v11h-20Z" fill="#c6e0e8" stroke="#58636a" stroke-width="2"/>
-                  <path d="M102 366V169m18-23v220m-18-173 18 18m-18 25 18 18m-18 25 18 18m-18 25 18 18m-18 25 18 18m-18-173-18 18m18 25-18 18m18 25-18 18m18 25-18 18m18 25-18 18" fill="none" stroke="#a77f10" stroke-width="3"/>
-                  <path d="M94 366H126m-32-14h32m-32-35h32m-32-35h32m-32-35h32m-32-35h32m-32-35h32" fill="none" stroke="#8f6e12" stroke-width="3"/>
-                  <path d="M95 366h33" stroke="#4c5a60" stroke-width="7"/>
-                  <path d="M202 143h16v10h-16Z" fill="#59666c"/>
-                  <circle cx="206" cy="153" r="4" fill="#273944"/>
-                  <circle cx="214" cy="153" r="4" fill="#273944"/>
+                  <path d="M102 364V169M120 146V364M102 182 120 200 102 218 120 236 102 254 120 272 102 290 120 308 102 326 120 344 102 362" fill="none" stroke="#a77f10" stroke-width="3"/>
+                  <path d="M94 362H128M94 344H128M94 309H128M94 274H128M94 239H128M94 204H128M94 169H128" fill="none" stroke="#8f6e12" stroke-width="3"/>
+                  <path d="M95 362H127" stroke="#4c5a60" stroke-width="6"/>
                 </g>
 
                 <g aria-label="Staging point at 50 feet">
                   <path d="M210 366v-7" stroke="#ad7e00" stroke-width="2"/>
                   <circle cx="210" cy="366" r="7" fill="#f4c52f" stroke="#775c0c" stroke-width="2"/>
                   <path d="M210 366v-6" stroke="#293b45" stroke-width="2"/>
-                  <path d="M194 351h32v13h-32Z" fill="#d79c18" stroke="#795b12" stroke-width="2"/>
-                  <path d="M191 364h38v4h-38Z" fill="#6c7374"/>
-                  <path d="M200 351v13m20-13v13" stroke="#fff1b1" stroke-width="2"/>
-                  <rect x="156" y="302" width="104" height="23" rx="6" fill="#fff" stroke="#d7a71b" stroke-width="2"/>
-                  <text x="208" y="319" class="queue-value" fill="#5c470a" font-size="18" font-weight="800" text-anchor="middle">4,000 lb</text>
-                  <text x="208" y="294" class="ruler-label" fill="#475862" font-size="15" font-weight="800" text-anchor="middle">PICKUP · R 50 ft</text>
-                  <path d="M208 325v19" stroke="#8a6d1d" stroke-dasharray="3 3" stroke-width="1.5"/>
+                  <g id="staging-load">
+                    <path d="M194 351h32v13h-32Z" fill="#d79c18" stroke="#795b12" stroke-width="2"/>
+                    <path d="M191 364h38v4h-38Z" fill="#6c7374"/>
+                    <path d="M200 351v13m20-13v13" stroke="#fff1b1" stroke-width="2"/>
+                    <rect class="staging-load-tag" x="114" y="302" width="90" height="23" rx="6" fill="#fff" stroke="#d7a71b" stroke-width="2"/>
+                    <text id="staging-load-label" x="159" y="319" class="queue-value staging-load-label" fill="#5c470a" font-size="15" font-weight="800" text-anchor="middle">4,000 lb</text>
+                  </g>
+                  <text x="190" y="294" class="ruler-label staging-label" fill="#475862" font-size="15" font-weight="800" text-anchor="middle">PICKUP · R 50 ft</text>
+                  <path class="staging-guide" d="M208 325v19" stroke="#8a6d1d" stroke-dasharray="3 3" stroke-width="1.5"/>
                 </g>
 
-                <g aria-label="Remaining loads in staging queue">
-                  <text x="56" y="255" class="queue-title" fill="#42545e" font-size="16" font-weight="800" text-anchor="middle">LOAD QUEUE</text>
-                  <rect x="5" y="263" width="102" height="34" rx="7" fill="#fff" stroke="#bdc8cd" stroke-width="1.5"/>
-                  <text x="56" y="285" class="queue-value" fill="#263c48" font-size="17" font-weight="800" text-anchor="middle">8,000 lb</text>
-                  <rect x="5" y="302" width="102" height="34" rx="7" fill="#fff" stroke="#bdc8cd" stroke-width="1.5"/>
-                  <text x="56" y="324" class="queue-value" fill="#263c48" font-size="16" font-weight="800" text-anchor="middle">12,000 lb</text>
+                <g id="staging-queue" aria-label="Remaining loads in staging queue">
+                  <text id="queue-title" x="56" y="255" class="queue-title" fill="#42545e" font-size="16" font-weight="800" text-anchor="middle">LOAD QUEUE</text>
+                  <g id="queue-8000">
+                    <rect class="queue-card" x="5" y="263" width="102" height="34" rx="7" fill="#fff" stroke="#bdc8cd" stroke-width="1.5"/>
+                    <text x="56" y="285" class="queue-value" fill="#263c48" font-size="17" font-weight="800" text-anchor="middle">8,000 lb</text>
+                  </g>
+                  <g id="queue-12000">
+                    <rect class="queue-card" x="5" y="302" width="102" height="34" rx="7" fill="#fff" stroke="#bdc8cd" stroke-width="1.5"/>
+                    <text x="56" y="324" class="queue-value" fill="#263c48" font-size="16" font-weight="800" text-anchor="middle">12,000 lb</text>
+                  </g>
                 </g>
 
                 <g aria-label="Current trolley and hook position">
-                  <path d="M204 142h13v13h-13Z" fill="#54646b" stroke="#263b45" stroke-width="2"/>
-                  <circle cx="207" cy="141" r="4" fill="#293d47"/>
-                  <circle cx="214" cy="141" r="4" fill="#293d47"/>
-                  <path d="M210 155V352" stroke="#364a55" stroke-width="3"/>
-                  <path d="M210 352v8c0 5 4 8 8 6" fill="none" stroke="#364a55" stroke-linecap="round" stroke-width="3"/>
+                  <g id="trolley-position" transform="translate(0 0)">
+                    <path d="M204 142h13v13h-13Z" fill="#54646b" stroke="#263b45" stroke-width="2"/>
+                    <circle cx="207" cy="141" r="4" fill="#293d47"/>
+                    <circle cx="214" cy="141" r="4" fill="#293d47"/>
+                  </g>
+                  <path id="hook-cable" d="M210 155V352" stroke="#364a55" stroke-width="3"/>
+                  <path id="hook-symbol" d="M210 352v8c0 5 4 8 8 6" fill="none" stroke="#364a55" stroke-linecap="round" stroke-width="3"/>
                 </g>
 
-                <g aria-label="Delivery target for 12,000 pounds at 74 feet and 20 feet hook height">
-                  <path d="M258 326V278" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
-                  <circle cx="258" cy="326" r="19" fill="#fff" fill-opacity=".72" stroke="#657780" stroke-width="3"/>
-                  <circle cx="258" cy="326" r="7" fill="#8a9aa0"/>
-                  <path d="M248 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
-                  <rect x="220" y="224" width="168" height="50" rx="8" fill="#fff" stroke="#89989e" stroke-width="2"/>
-                  <text x="232" y="246" class="target-title" fill="#293d47" font-size="19" font-weight="800">12,000 lb</text>
-                  <text x="232" y="265" class="target-meta" fill="#50636d" font-size="15" font-weight="700">R 74 ft · H 20 ft</text>
+                <g id="target-12000" class="delivery-target" aria-label="Delivery target for 12,000 pounds at 74 feet and 20 feet hook height">
+                  <path class="target-leader" d="M258 326V274L214 260" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
+                  <circle class="target-ring" cx="258" cy="326" r="19"/>
+                  <circle class="target-center" cx="258" cy="326" r="7"/>
+                  <path class="target-crosshair" d="M248 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
+                  <g class="delivered-material" aria-hidden="true" display="none">
+                    <rect x="248" y="338" width="20" height="10" rx="1" fill="#d79c18" stroke="#795b12" stroke-width="1.5"/>
+                    <path d="M250 341H266M253 338v10m10-10v10" fill="none" stroke="#fff1b1" stroke-width="1.2"/>
+                  </g>
+                  <text class="target-letter" x="258" y="337" aria-hidden="true">C</text>
+                  <rect class="target-label-card" x="130" y="205" width="168" height="50" rx="8"/>
+                  <text x="142" y="227" class="target-title" fill="#293d47" font-size="19" font-weight="800">12,000 lb</text>
+                  <text x="142" y="246" class="target-meta" fill="#50636d" font-size="15" font-weight="700">R 74 ft · H 20 ft</text>
                 </g>
 
-                <g aria-label="Delivery target for 8,000 pounds at 99 feet and 20 feet hook height">
-                  <path d="M308 326V220" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
-                  <circle cx="308" cy="326" r="19" fill="#fff" fill-opacity=".72" stroke="#657780" stroke-width="3"/>
-                  <circle cx="308" cy="326" r="7" fill="#8a9aa0"/>
-                  <path d="M298 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
-                  <rect x="270" y="165" width="168" height="50" rx="8" fill="#fff" stroke="#89989e" stroke-width="2"/>
-                  <text x="282" y="187" class="target-title" fill="#293d47" font-size="19" font-weight="800">8,000 lb</text>
-                  <text x="282" y="206" class="target-meta" fill="#50636d" font-size="15" font-weight="700">R 99 ft · H 20 ft</text>
+                <g id="target-8000" class="delivery-target" aria-label="Delivery target for 8,000 pounds at 99 feet and 20 feet hook height">
+                  <path class="target-leader" d="M308 326 392 260" stroke="#54656e" stroke-dasharray="4 4" stroke-width="2"/>
+                  <circle class="target-ring" cx="308" cy="326" r="19"/>
+                  <circle class="target-center" cx="308" cy="326" r="7"/>
+                  <path class="target-crosshair" d="M298 326h20m-10-10v20" stroke="#42545e" stroke-width="2"/>
+                  <g class="delivered-material" aria-hidden="true" display="none">
+                    <rect x="298" y="338" width="20" height="10" rx="1" fill="#d79c18" stroke="#795b12" stroke-width="1.5"/>
+                    <path d="M300 341H316M303 338v10m10-10v10" fill="none" stroke="#fff1b1" stroke-width="1.2"/>
+                  </g>
+                  <text class="target-letter" x="308" y="337" aria-hidden="true">B</text>
+                  <rect class="target-label-card" x="308" y="205" width="168" height="50" rx="8"/>
+                  <text x="320" y="227" class="target-title" fill="#293d47" font-size="19" font-weight="800">8,000 lb</text>
+                  <text x="320" y="246" class="target-meta" fill="#50636d" font-size="15" font-weight="700">R 99 ft · H 20 ft</text>
                 </g>
 
-                <g aria-label="Active delivery target for 4,000 pounds at 125 feet and 20 feet hook height">
-                  <path d="M360 326 377 290 394 272" fill="none" stroke="#bd8a00" stroke-dasharray="4 3" stroke-width="2.5"/>
-                  <circle cx="360" cy="326" r="27" fill="#f6c943" opacity=".38" filter="url(#active-glow)"/>
-                  <circle cx="360" cy="326" r="22" fill="#fff4cc" stroke="#bf8d00" stroke-width="4"/>
-                  <circle cx="360" cy="326" r="8" fill="#e1a900"/>
-                  <path d="M349 326h22m-11-11v22" stroke="#725500" stroke-width="2.5"/>
-                  <rect x="394" y="216" width="218" height="52" rx="9" fill="#fff3c8" stroke="#c28e00" stroke-width="3"/>
-                  <path d="M405 231h8v8h-8Z" fill="#c28e00"/>
-                  <text x="419" y="239" class="target-title" fill="#493800" font-size="19" font-weight="900">ACTIVE · 4,000 lb</text>
-                  <text x="407" y="258" class="target-meta" fill="#66520e" font-size="15" font-weight="800">R 125 ft · H 20 ft</text>
+                <g id="target-4000" class="delivery-target is-active" aria-label="Active delivery target for 4,000 pounds at 125 feet and 20 feet hook height">
+                  <path class="target-leader" d="M360 326V280L595 260" fill="none" stroke="#bd8a00" stroke-dasharray="4 3" stroke-width="2.5"/>
+                  <circle class="target-glow" cx="360" cy="326" r="27" fill="#f6c943" filter="url(#active-glow)"/>
+                  <circle class="target-ring" cx="360" cy="326" r="22"/>
+                  <circle class="target-center" cx="360" cy="326" r="8"/>
+                  <path class="target-crosshair" d="M349 326h22m-11-11v22" stroke="#725500" stroke-width="2.5"/>
+                  <g class="delivered-material" aria-hidden="true" display="none">
+                    <rect x="350" y="338" width="20" height="10" rx="1" fill="#d79c18" stroke="#795b12" stroke-width="1.5"/>
+                    <path d="M352 341H368M355 338v10m10-10v10" fill="none" stroke="#fff1b1" stroke-width="1.2"/>
+                  </g>
+                  <text class="target-letter" x="360" y="337" aria-hidden="true">A</text>
+                  <rect class="target-label-card" x="486" y="205" width="218" height="52" rx="9"/>
+                  <path class="target-label-icon" d="M497 220h8v8h-8Z" fill="#c28e00"/>
+                  <text x="511" y="228" class="target-title" fill="#493800" font-size="19" font-weight="900">ACTIVE · 4,000 lb</text>
+                  <text x="499" y="247" class="target-meta" fill="#66520e" font-size="15" font-weight="800">R 125 ft · H 20 ft</text>
                 </g>
 
-                <g aria-label="Hook height scale from 0 to 30 feet">
-                  <path d="M438 306V366M431 306H445M433 316H443M431 326H445M433 346H443M431 366H445" fill="none" stroke="#32769a" stroke-width="2.5"/>
-                  <text x="448" y="310" class="height-label" fill="#2c6684" font-size="13" font-weight="800">30 ft</text>
-                  <text x="425" y="320" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">25 ft</text>
-                  <text x="448" y="330" class="height-label" fill="#2c6684" font-size="13" font-weight="800">20 ft</text>
-                  <text x="425" y="350" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">10 ft</text>
-                  <text x="448" y="370" class="height-label" fill="#2c6684" font-size="13" font-weight="800">0 ft</text>
-                  <text x="468" y="340" fill="#2c6684" font-size="11" font-weight="800" text-anchor="middle" transform="rotate(-90 468 340)">HOOK HEIGHT</text>
-                </g>
-
-                <g aria-label="Operating radius scale">
-                  <path d="M110 397H410" stroke="#697a82" stroke-width="2"/>
-                  <path d="M110 390V424m100-27V424m100-27V424m100-27V424" stroke="#697a82" stroke-width="2"/>
-                  <path d="M110 390H210" stroke="#ad7e00" stroke-width="3" marker-start="url(#radius-arrow)" marker-end="url(#radius-arrow)"/>
-                  <text x="160" y="382" class="ruler-label" fill="#775b0b" font-size="15" font-weight="900" text-anchor="middle">CURRENT R · 50 ft</text>
-                  <text x="110" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">0</text>
-                  <text x="210" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">50</text>
-                  <text x="310" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">100</text>
-                  <text x="410" y="443" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">150 ft max</text>
-                  <text x="650" y="441" class="scene-note" fill="#65757c" font-size="13" text-anchor="middle">Drawing scale: 2 SVG units = 1 ft</text>
+                <g id="suspended-load" display="none" aria-label="Suspended load">
+                  <path d="M-8 0v-3m16 3v-3M-8-3H8" fill="none" stroke="#344a55" stroke-width="2"/>
+                  <rect id="suspended-load-body" x="-14" y="0" width="28" height="13" rx="2" fill="#d99d00" stroke="#725500" stroke-width="2"/>
+                  <path id="suspended-load-detail" d="M-12 5H12M-8 2v9m16-9v9" fill="none" stroke="#fff0b5" stroke-width="1.5"/>
+                  <g id="suspended-load-tag">
+                    <rect x="14" y="-16" width="42" height="12" rx="3" fill="#fff3c8" stroke="#a77f10" stroke-width="1.5"/>
+                    <text id="suspended-load-label" x="35" y="-7" fill="#493800" font-size="7" font-weight="900" text-anchor="middle">4,000 lb</text>
+                  </g>
                 </g>
 
                 <path d="M0 366H820" stroke="#60716d" stroke-width="5"/>
                 <path d="M0 372H820" stroke="#c1cbca" stroke-width="8"/>
+
+                <g aria-label="Hook height scale from 0 to 30 feet" transform="translate(34 0)">
+                  <text x="438" y="294" class="height-ruler-title" fill="#2c6684" font-size="12" font-weight="800" text-anchor="middle">HOOK HEIGHT (ft)</text>
+                  <rect x="398" y="357" width="31" height="17" fill="#f8f8f4"/>
+                  <path d="M438 306V366M431 306H445M431 326H445M433 346H443M431 366H445" fill="none" stroke="#32769a" stroke-width="2.5"/>
+                  <path d="M438 316H467" fill="none" stroke="#ad7e00" stroke-dasharray="4 3" stroke-width="2.5"/>
+                  <text x="473" y="320" class="clearance-label" fill="#775b0b" font-size="12" font-weight="800">25 ft clearance</text>
+                  <text x="426" y="310" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">30<tspan class="height-unit"> ft</tspan></text>
+                  <text x="426" y="330" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">20<tspan class="height-unit"> ft</tspan></text>
+                  <text x="426" y="350" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">10<tspan class="height-unit"> ft</tspan></text>
+                  <text x="426" y="370" class="height-label" fill="#2c6684" font-size="13" font-weight="800" text-anchor="end">0<tspan class="height-unit"> ft</tspan></text>
+                </g>
+
+                <g aria-label="Operating radius scale">
+                  <path d="M210 416H410" stroke="#697a82" stroke-width="2"/>
+                  <path d="M210 409V435m50-26V435m50-26V435m50-26V435m50-26V435" stroke="#697a82" stroke-width="2"/>
+                  <path id="current-radius-guide" d="M110 382H210" stroke="#ad7e00" stroke-width="3" marker-start="url(#radius-arrow)" marker-end="url(#radius-arrow)"/>
+                  <text id="current-radius-label" x="160" y="402" class="ruler-label" fill="#775b0b" font-size="15" font-weight="900" text-anchor="middle">CURRENT R · 50 ft</text>
+                  <text x="210" y="451" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">50</text>
+                  <text x="260" y="451" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">75</text>
+                  <text x="310" y="451" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">100</text>
+                  <text x="360" y="451" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">125</text>
+                  <text x="410" y="451" class="ruler-label" fill="#455861" font-size="13" text-anchor="middle">150</text>
+                  <text x="550" y="451" class="ruler-label radius-ruler-title" fill="#65757c" font-size="13" text-anchor="middle">RADIUS (ft)</text>
+                </g>
               </svg>
             </div>
-            <p class="mockup-note">Scene positions use a consistent 2 SVG units per foot; controls and readings remain static.</p>
           </div>
         </section>
 
@@ -1130,48 +1465,51 @@
             <span class="key-instruction"><kbd>Space</kbd> Pick up / release</span>
           </div>
           <div class="action-buttons">
-            <button class="button button-primary" type="button" aria-disabled="true" title="Visual placeholder only">Start</button>
-            <button class="button button-secondary" type="button" aria-disabled="true" title="Visual placeholder only">Restart</button>
+            <button class="button button-primary start-button" type="button">Start</button>
+            <button class="button button-secondary restart-button" type="button">Restart</button>
           </div>
         </section>
       </div>
 
       <aside class="right-column" aria-label="Crane readings and load chart">
         <section class="panel readout-panel" aria-labelledby="readout-title">
-          <div class="panel-heading">
-            <div>
-              <p class="panel-kicker">02 / Instrument panel</p>
+          <details id="readout-details" class="readout-details" open>
+            <summary class="panel-heading readout-summary">
+              <span class="panel-kicker">02 / Instrument panel</span>
               <h2 id="readout-title">Crane readings</h2>
-              <p class="panel-subtitle">Current position and lift status.</p>
+              <span class="panel-subtitle">Current position and lift status.</span>
+              <span class="readout-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="readout-content">
+              <div class="readout-grid">
+                <div class="metric">
+                  <span class="metric-label">Operating radius</span>
+                  <span id="radius-readout" class="metric-value">50 <small>ft</small></span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Hook height</span>
+                  <span id="height-readout" class="metric-value">0 <small>ft</small></span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Suspended load</span>
+                  <span id="suspended-load-readout" class="metric-value">None</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Allowable capacity</span>
+                  <span class="metric-value">Inactive <small>Stage 4</small></span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Load utilization</span>
+                  <span class="metric-value">Inactive <small>Stage 4</small></span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Active load</span>
+                  <span id="active-load-readout" class="metric-value">4,000 <small>lb next</small></span>
+                </div>
+              </div>
+              <p class="readout-footnote">Capacity, utilization, warning, and chart calculations remain inactive until Stage 4.</p>
             </div>
-          </div>
-          <div class="readout-grid">
-            <div class="metric">
-              <span class="metric-label">Operating radius</span>
-              <span class="metric-value">50 <small>ft</small></span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Hook height</span>
-              <span class="metric-value">0 <small>ft</small></span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Suspended load</span>
-              <span class="metric-value">None</span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Allowable capacity</span>
-              <span class="metric-value">20,000 <small>lb</small></span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Load utilization</span>
-              <span class="metric-value">0.00<small>%</small></span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Active load</span>
-              <span class="metric-value">4,000 <small>lb next</small></span>
-            </div>
-          </div>
-          <p class="readout-footnote">Static initial-state placeholders; values will be connected to the simulation in later stages.</p>
+          </details>
         </section>
 
         <section class="panel chart-panel" aria-labelledby="chart-title">
@@ -1181,7 +1519,7 @@
               <h2 id="chart-title">Load chart</h2>
               <p class="panel-subtitle">Allowable capacity by operating radius</p>
             </div>
-            <span class="preview-badge">Static</span>
+            <span class="preview-badge">Stage 4 · Static</span>
           </div>
           <figure class="chart-figure">
             <svg viewBox="0 0 520 245" role="img" aria-labelledby="chart-svg-title chart-svg-desc">
@@ -1212,7 +1550,7 @@
               <rect x="76" y="42" width="94" height="22" rx="6" fill="#e8f4ec"/>
               <text x="123" y="57" fill="#205b38" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">50 ft · 20,000 lb</text>
             </svg>
-            <figcaption class="chart-caption">Static chart preview using the assignment values; no lookup or interpolation is implemented.</figcaption>
+            <figcaption class="chart-caption">Stage 4 preview only; not connected to the current radius or load.</figcaption>
           </figure>
           <div class="chart-legend" aria-label="Chart legend">
             <span class="legend-item"><span class="legend-line" aria-hidden="true"></span>Allowable capacity</span>
@@ -1221,7 +1559,7 @@
         </section>
 
         <section class="panel status-legend" aria-labelledby="status-legend-title">
-          <h2 id="status-legend-title">Status key</h2>
+          <h2 id="status-legend-title">Status key · Stage 4 inactive</h2>
           <div class="legend-status-row">
             <span class="legend-status"><b aria-hidden="true"></b>Normal</span>
             <span class="legend-status warning"><b aria-hidden="true"></b>Warning</span>
@@ -1234,19 +1572,543 @@
     <p class="disclaimer">Educational simulation only. This assignment load chart is not a real crane chart and must not be used for actual crane operations.</p>
   </div>
 
-  <nav class="mobile-dock" aria-label="Touchscreen controls (static preview)">
-    <div class="dock-directional" aria-label="Directional controls">
-      <button class="button" type="button" aria-label="Move up (placeholder)" aria-disabled="true">&uarr;</button>
-      <button class="button" type="button" aria-label="Move left (placeholder)" aria-disabled="true">&larr;</button>
-      <button class="button" type="button" aria-label="Move down (placeholder)" aria-disabled="true">&darr;</button>
-      <button class="button" type="button" aria-label="Move right (placeholder)" aria-disabled="true">&rarr;</button>
+  <nav class="mobile-dock" aria-label="Touchscreen controls">
+    <div class="dock-live-panel">
+      <div class="dock-position-readings" aria-label="Live crane position">
+        <div class="dock-position">
+          <span class="dock-position-label">Radius</span>
+          <strong class="dock-position-value"><span id="dock-radius">50</span> <small>ft</small></strong>
+        </div>
+        <div class="dock-position">
+          <span class="dock-position-label">Hook height</span>
+          <strong class="dock-position-value"><span id="dock-height">0</span> <small>ft</small></strong>
+        </div>
+      </div>
+      <div class="dock-load-objective" aria-label="Load and delivery objective">
+        <p>Suspended: <strong id="dock-suspended-load">None</strong></p>
+        <p id="dock-objective">Next: A · 4,000 lb · R125 ft · H20 ft</p>
+      </div>
+      <div class="dock-operating-status" aria-label="Utilization and warning status">
+        <div class="dock-status-item"><span>Utilization</span><strong>Inactive · Stage 4</strong></div>
+        <div class="dock-status-item"><span>Status</span><strong>Inactive · Stage 4</strong></div>
+      </div>
+      <p class="mobile-keyboard-guide">Keys: &larr; / &rarr; radius · &uarr; / &darr; hook · Space pick / release</p>
+      <p id="mobile-dock-notice" class="mobile-dock-notice" role="status" aria-live="polite" aria-atomic="true">Stage 3 preview. Press Start; Stage 4 timer, score, capacity, and chart are inactive.</p>
     </div>
-    <div class="dock-actions">
-      <span class="dock-label">Touch controls · preview</span>
-      <button class="button pickup-button" type="button" aria-disabled="true">Pick up / release</button>
-      <button class="button button-primary" type="button" aria-disabled="true">Start</button>
-      <button class="button button-muted" type="button" aria-disabled="true">Restart</button>
+    <div class="dock-controls">
+      <div class="dock-directional" aria-label="Directional controls">
+        <button class="button direction-button" type="button" data-direction="up" aria-label="Raise hook">&uarr;</button>
+        <button class="button direction-button" type="button" data-direction="left" aria-label="Move trolley inward">&larr;</button>
+        <button class="button direction-button" type="button" data-direction="down" aria-label="Lower hook">&darr;</button>
+        <button class="button direction-button" type="button" data-direction="right" aria-label="Move trolley outward">&rarr;</button>
+      </div>
+      <div class="dock-actions">
+        <button class="button pickup-button" type="button">Pick up / release</button>
+        <button class="button button-primary start-button" type="button">Start</button>
+        <button class="button button-muted restart-button" type="button">Restart</button>
+      </div>
     </div>
   </nav>
+  <script>
+    (() => {
+      "use strict";
+
+      const loads = [
+        { weight: 4000, radius: 125 },
+        { weight: 8000, radius: 99 },
+        { weight: 12000, radius: 74 }
+      ];
+      const state = {
+        radius: 50,
+        height: 0,
+        nextLoadIndex: 0,
+        suspendedIndex: null,
+        deliveredCount: 0,
+        started: false
+      };
+      const mobileLayout = window.matchMedia("(max-width: 780px)");
+      const keyDirections = new Set();
+      const pointerDirections = new Map();
+      const directionNames = ["up", "down", "left", "right"];
+      const directionKeys = {
+        ArrowUp: "up",
+        ArrowDown: "down",
+        ArrowLeft: "left",
+        ArrowRight: "right"
+      };
+      const elements = {
+        notice: document.querySelector("#stage3-notice"),
+        mobileNotice: document.querySelector("#mobile-dock-notice"),
+        statusIcon: document.querySelector("#status-icon"),
+        statusText: document.querySelector("#live-status-text"),
+        liveDetail: document.querySelector("#live-detail"),
+        radiusReadout: document.querySelector("#radius-readout"),
+        heightReadout: document.querySelector("#height-readout"),
+        suspendedReadout: document.querySelector("#suspended-load-readout"),
+        activeLoadReadout: document.querySelector("#active-load-readout"),
+        deliveryProgress: document.querySelector("#delivery-progress"),
+        dockRadius: document.querySelector("#dock-radius"),
+        dockHeight: document.querySelector("#dock-height"),
+        dockSuspendedLoad: document.querySelector("#dock-suspended-load"),
+        dockObjective: document.querySelector("#dock-objective"),
+        siteIllustration: document.querySelector(".site-illustration"),
+        readoutDetails: document.querySelector("#readout-details"),
+        sceneDescription: document.querySelector("#site-description"),
+        stagingLoad: document.querySelector("#staging-load"),
+        stagingLoadLabel: document.querySelector("#staging-load-label"),
+        queueTitle: document.querySelector("#queue-title"),
+        queue8000: document.querySelector("#queue-8000"),
+        queue12000: document.querySelector("#queue-12000"),
+        trolley: document.querySelector("#trolley-position"),
+        cable: document.querySelector("#hook-cable"),
+        hook: document.querySelector("#hook-symbol"),
+        suspendedLoad: document.querySelector("#suspended-load"),
+        suspendedLoadBody: document.querySelector("#suspended-load-body"),
+        suspendedLoadDetail: document.querySelector("#suspended-load-detail"),
+        suspendedLoadLabel: document.querySelector("#suspended-load-label"),
+        radiusGuide: document.querySelector("#current-radius-guide"),
+        radiusLabel: document.querySelector("#current-radius-label"),
+        directionButtons: Array.from(document.querySelectorAll(".direction-button")),
+        pickupButtons: Array.from(document.querySelectorAll(".pickup-button")),
+        startButtons: Array.from(document.querySelectorAll(".start-button")),
+        restartButtons: Array.from(document.querySelectorAll(".restart-button"))
+      };
+      const targetGroups = new Map([
+        [4000, document.querySelector("#target-4000")],
+        [8000, document.querySelector("#target-8000")],
+        [12000, document.querySelector("#target-12000")]
+      ]);
+      let movementTimer = null;
+      let nextMovementAt = 0;
+      let feedbackTimer = null;
+      let lastFeedback = "";
+
+      function currentLoadIndex() {
+        return state.suspendedIndex === null
+          ? state.nextLoadIndex
+          : state.suspendedIndex;
+      }
+
+      function syncResponsiveLayout() {
+        const mobile = mobileLayout.matches;
+        elements.siteIllustration.setAttribute(
+          "viewBox",
+          mobile ? "0 100 620 360" : "0 55 720 405"
+        );
+        elements.readoutDetails.open = !mobile;
+      }
+
+      function isDirectionHeld(direction) {
+        return keyDirections.has(direction)
+          || Array.from(pointerDirections.values()).includes(direction);
+      }
+
+      function defaultNotice() {
+        return state.started
+          ? "Stage 3 preview active. Timer, score, capacity warnings, tip-over, and chart are Stage 4."
+          : "Stage 3 preview. Press Start; Stage 4 timer, score, capacity, and chart are inactive.";
+      }
+
+      function showFeedback(message) {
+        if (message === lastFeedback) return;
+        lastFeedback = message;
+        setNotice(message);
+        if (feedbackTimer !== null) clearTimeout(feedbackTimer);
+        feedbackTimer = window.setTimeout(() => {
+          lastFeedback = "";
+          feedbackTimer = null;
+          setNotice(defaultNotice());
+        }, 3500);
+      }
+
+      function setNotice(message) {
+        elements.notice.textContent = message;
+        elements.mobileNotice.textContent = message;
+      }
+
+      function loadDescription(index) {
+        if (index >= loads.length) return "All three loads delivered";
+        const load = loads[index];
+        return `${load.weight.toLocaleString()} lb at ${load.radius} ft`;
+      }
+
+      function updateTargetHighlight() {
+        const activeIndex = currentLoadIndex();
+        const activeWeight = activeIndex < loads.length
+          ? loads[activeIndex].weight
+          : null;
+
+        for (const [weight, group] of targetGroups) {
+          const active = weight === activeWeight;
+          const loadIndex = loads.findIndex(load => load.weight === weight);
+          const delivered = loadIndex < state.nextLoadIndex;
+          const target = loads[loadIndex];
+          group.classList.toggle("is-active", active);
+          group.classList.toggle("is-delivered", delivered);
+          group.querySelector(".delivered-material").style.display =
+            delivered ? "" : "none";
+          const title = group.querySelector(".target-title");
+          title.textContent = delivered
+            ? `DELIVERED · ${weight.toLocaleString()} lb`
+            : active
+              ? `ACTIVE · ${weight.toLocaleString()} lb`
+              : `${weight.toLocaleString()} lb`;
+          group.setAttribute(
+            "aria-label",
+            delivered
+              ? `Delivered ${weight.toLocaleString()} pound load at ${target.radius} feet`
+              : `${active ? "Active " : ""}delivery target for ${weight.toLocaleString()} pounds at ${target.radius} feet and 20 feet hook height`
+          );
+        }
+      }
+
+      function updateScene() {
+        const x = 110 + 2 * state.radius;
+        const hookY = 366 - 2 * state.height;
+        const offsetX = x - 210;
+        const visibleLoadHeight = Math.min(13, Math.max(0, 366 - hookY));
+        const suspended = state.suspendedIndex !== null;
+
+        elements.trolley.setAttribute("transform", `translate(${offsetX} 0)`);
+        elements.cable.setAttribute("d", `M${x} 155V${hookY - 14}`);
+        elements.hook.setAttribute("transform", `translate(${offsetX} ${-2 * state.height})`);
+        elements.suspendedLoad.setAttribute("display", suspended ? "inline" : "none");
+        elements.suspendedLoad.setAttribute("transform", `translate(${x} ${hookY})`);
+        elements.suspendedLoadBody.setAttribute("height", String(visibleLoadHeight));
+        elements.suspendedLoadDetail.setAttribute(
+          "d",
+          visibleLoadHeight > 0
+            ? `M-12 ${Math.min(5, visibleLoadHeight / 2)}H12M-8 0.5V${visibleLoadHeight}m16 0V0.5`
+            : ""
+        );
+        if (suspended) {
+          elements.suspendedLoadLabel.textContent =
+            `${loads[state.suspendedIndex].weight.toLocaleString()} lb`;
+          elements.suspendedLoad.setAttribute(
+            "aria-label",
+            `Suspended ${loads[state.suspendedIndex].weight.toLocaleString()} pound load`
+          );
+        }
+
+        elements.stagingLoad.style.display = !suspended && state.nextLoadIndex < loads.length
+          ? ""
+          : "none";
+        elements.stagingLoadLabel.textContent = state.nextLoadIndex < loads.length
+          ? `${loads[state.nextLoadIndex].weight.toLocaleString()} lb`
+          : "All delivered";
+        elements.queue8000.style.display = state.nextLoadIndex < 1 ? "" : "none";
+        elements.queue12000.style.display = state.nextLoadIndex < 2 ? "" : "none";
+        const queueHasLoads = state.nextLoadIndex < 2;
+        elements.queueTitle.style.display = queueHasLoads ? "" : "none";
+        elements.queueTitle.parentElement.setAttribute(
+          "aria-label",
+          queueHasLoads ? "Remaining loads in staging queue" : "Staging queue is empty"
+        );
+
+        elements.radiusGuide.setAttribute("d", `M110 382H${x}`);
+        elements.radiusLabel.setAttribute("x", String((110 + x) / 2));
+        elements.radiusLabel.textContent = `CURRENT R · ${state.radius} ft`;
+        elements.sceneDescription.textContent =
+          `Interactive side view using 2 SVG units per foot. The trolley is at radius ${state.radius} feet and the hook is ${state.height} feet above ground. ` +
+          `${suspended
+            ? `The ${loads[state.suspendedIndex].weight.toLocaleString()} pound load is suspended. The next delivery target is ${loadDescription(state.suspendedIndex)}.`
+            : `The next pickup is ${loadDescription(state.nextLoadIndex)}.`}`;
+        updateTargetHighlight();
+      }
+
+      function updateReadings() {
+        elements.radiusReadout.innerHTML = `${state.radius} <small>ft</small>`;
+        elements.heightReadout.innerHTML = `${state.height} <small>ft</small>`;
+        elements.dockRadius.textContent = String(state.radius);
+        elements.dockHeight.textContent = String(state.height);
+        elements.suspendedReadout.textContent = state.suspendedIndex === null
+          ? "None"
+          : `${loads[state.suspendedIndex].weight.toLocaleString()} lb`;
+        elements.dockSuspendedLoad.textContent = state.suspendedIndex === null
+          ? "None"
+          : `${loads[state.suspendedIndex].weight.toLocaleString()} lb`;
+        const objectiveIndex = currentLoadIndex();
+        elements.dockObjective.textContent = objectiveIndex >= loads.length
+          ? "Objective: All deliveries complete"
+          : `${state.suspendedIndex === null ? "Next" : "Deliver"}: ${String.fromCharCode(65 + objectiveIndex)} · ${loads[objectiveIndex].weight.toLocaleString()} lb · R${loads[objectiveIndex].radius} ft · H20 ft`;
+        if (state.suspendedIndex !== null) {
+          elements.activeLoadReadout.innerHTML =
+            `${loads[state.suspendedIndex].weight.toLocaleString()} <small>lb carried</small>`;
+        } else if (state.nextLoadIndex < loads.length) {
+          elements.activeLoadReadout.innerHTML =
+            `${loads[state.nextLoadIndex].weight.toLocaleString()} <small>lb next</small>`;
+        } else {
+          elements.activeLoadReadout.textContent = "All delivered";
+        }
+        elements.deliveryProgress.innerHTML =
+          `${state.deliveredCount} <small>/ 3</small>`;
+        elements.liveDetail.innerHTML =
+          `Radius: ${state.radius} ft<br>Utilization: inactive`;
+        elements.statusText.textContent = state.started
+          ? "RUNNING · Stage 3"
+          : "READY";
+        elements.statusIcon.textContent = state.started ? "▶" : "✓";
+        elements.directionButtons.forEach(button => {
+          button.disabled = !state.started;
+        });
+        elements.pickupButtons.forEach(button => {
+          button.disabled = !state.started
+            || (state.suspendedIndex === null && state.nextLoadIndex >= loads.length);
+        });
+        elements.startButtons.forEach(button => {
+          button.disabled = state.started;
+        });
+      }
+
+      function render() {
+        updateScene();
+        updateReadings();
+      }
+
+      function clearDirection(direction) {
+        keyDirections.delete(direction);
+        for (const [pointerId, heldDirection] of pointerDirections) {
+          if (heldDirection === direction) pointerDirections.delete(pointerId);
+        }
+      }
+
+      function stopMovement() {
+        if (movementTimer !== null) {
+          clearInterval(movementTimer);
+          movementTimer = null;
+        }
+        nextMovementAt = 0;
+      }
+
+      function stopAllInputs() {
+        keyDirections.clear();
+        pointerDirections.clear();
+        spaceHeld = false;
+        stopMovement();
+      }
+
+      function hasHeldDirections() {
+        return keyDirections.size > 0 || pointerDirections.size > 0;
+      }
+
+      function getAxisDirection(positive, negative) {
+        const positiveHeld = isDirectionHeld(positive);
+        const negativeHeld = isDirectionHeld(negative);
+        if (positiveHeld === negativeHeld) return null;
+        return positiveHeld ? positive : negative;
+      }
+
+      function moveOneStep() {
+        if (!state.started) return;
+        const vertical = getAxisDirection("up", "down");
+        const horizontal = getAxisDirection("right", "left");
+        let changed = false;
+
+        if (vertical !== null) {
+          const nextHeight = state.height + (vertical === "up" ? 1 : -1);
+          if (nextHeight >= 0 && nextHeight <= 30) {
+            state.height = nextHeight;
+            changed = true;
+            if (nextHeight === 30 && vertical === "up") {
+              clearDirection(vertical);
+              showFeedback("Movement stopped: the hook reached its 30 ft upper limit.");
+            } else if (nextHeight === 0 && vertical === "down") {
+              clearDirection(vertical);
+              showFeedback("Movement stopped: the hook reached its 0 ft lower limit.");
+            }
+          } else {
+            clearDirection(vertical);
+            showFeedback(
+              nextHeight > 30
+                ? "Movement stopped: the hook is at its 30 ft upper limit."
+                : "Movement stopped: the hook is at its 0 ft lower limit."
+            );
+          }
+        }
+
+        if (horizontal !== null) {
+          if (state.suspendedIndex !== null && state.height < 25) {
+            showFeedback("Raise the suspended load to 25 ft before horizontal movement.");
+          } else {
+            const nextRadius = state.radius + (horizontal === "right" ? 1 : -1);
+            if (nextRadius >= 50 && nextRadius <= 150) {
+              state.radius = nextRadius;
+              changed = true;
+              if (nextRadius === 150 && horizontal === "right") {
+                clearDirection(horizontal);
+                showFeedback("Movement stopped: the trolley reached its 150 ft outer limit.");
+              } else if (nextRadius === 50 && horizontal === "left") {
+                clearDirection(horizontal);
+                showFeedback("Movement stopped: the trolley reached its 50 ft inner limit.");
+              }
+            } else {
+              clearDirection(horizontal);
+              showFeedback(
+                nextRadius > 150
+                  ? "Movement stopped: the trolley is at its 150 ft outer limit."
+                  : "Movement stopped: the trolley is at its 50 ft inner limit."
+              );
+            }
+          }
+        }
+
+        if (changed) render();
+        if (!hasHeldDirections()) stopMovement();
+      }
+
+      function beginDirection(direction, source) {
+        if (!state.started || !directionNames.includes(direction)) return;
+        const alreadyHeld = hasHeldDirections();
+        if (source.type === "key") {
+          if (keyDirections.has(direction)) return;
+          keyDirections.add(direction);
+        } else {
+          if (pointerDirections.has(source.id)) return;
+          pointerDirections.set(source.id, direction);
+        }
+
+        if (!alreadyHeld) {
+          moveOneStep();
+          if (hasHeldDirections()) {
+            nextMovementAt = performance.now() + 100;
+            movementTimer = window.setInterval(() => {
+              const now = performance.now();
+              while (hasHeldDirections() && now >= nextMovementAt) {
+                moveOneStep();
+                nextMovementAt += 100;
+              }
+            }, 10);
+          }
+        }
+      }
+
+      function endDirection(direction, source) {
+        if (source.type === "key") {
+          keyDirections.delete(direction);
+        } else if (pointerDirections.get(source.id) === direction) {
+          pointerDirections.delete(source.id);
+        }
+        if (!hasHeldDirections()) stopMovement();
+      }
+
+      function startGame() {
+        if (state.started) return;
+        state.started = true;
+        showFeedback("Stage 3 controls active. Timer, score, capacity warnings, tip-over, and chart are Stage 4.");
+        render();
+      }
+
+      function restartGame() {
+        stopAllInputs();
+        state.radius = 50;
+        state.height = 0;
+        state.nextLoadIndex = 0;
+        state.suspendedIndex = null;
+        state.deliveredCount = 0;
+        state.started = false;
+        if (feedbackTimer !== null) {
+          clearTimeout(feedbackTimer);
+          feedbackTimer = null;
+        }
+        lastFeedback = "";
+        setNotice(`Restarted. ${defaultNotice()}`);
+        render();
+      }
+
+      function pickupOrDeliver() {
+        if (!state.started) return;
+        if (state.suspendedIndex === null) {
+          if (state.nextLoadIndex >= loads.length) {
+            showFeedback("All three loads have been delivered. Press Restart to run the Stage 3 preview again.");
+            return;
+          }
+          if (state.radius < 50 || state.radius > 51 || state.height < 0 || state.height > 1) {
+            showFeedback("Pickup requires radius 50–51 ft and hook height 0–1 ft.");
+            return;
+          }
+          state.suspendedIndex = state.nextLoadIndex;
+          showFeedback(`Picked up ${loads[state.suspendedIndex].weight.toLocaleString()} lb. Raise to 25 ft before moving horizontally.`);
+          render();
+          return;
+        }
+
+        const load = loads[state.suspendedIndex];
+        const radiusValid = Math.abs(state.radius - load.radius) <= 1;
+        const heightValid = Math.abs(state.height - 20) <= 1;
+        if (!radiusValid || !heightValid) {
+          showFeedback(`Deliver ${load.weight.toLocaleString()} lb at radius ${load.radius - 1}–${load.radius + 1} ft and height 19–21 ft.`);
+          return;
+        }
+
+        state.suspendedIndex = null;
+        state.nextLoadIndex += 1;
+        state.deliveredCount += 1;
+        if (state.deliveredCount === loads.length) {
+          showFeedback("All loads delivered. Stage 4 win and score are inactive; press Restart.");
+        } else {
+          showFeedback(`Delivered the ${load.weight.toLocaleString()} lb load. The next load is ${loads[state.nextLoadIndex].weight.toLocaleString()} lb.`);
+        }
+        render();
+      }
+
+      let spaceHeld = false;
+      elements.startButtons.forEach(button => button.addEventListener("click", startGame));
+      elements.restartButtons.forEach(button => button.addEventListener("click", restartGame));
+      elements.pickupButtons.forEach(button => button.addEventListener("click", pickupOrDeliver));
+
+      elements.directionButtons.forEach(button => {
+        const direction = button.dataset.direction;
+        button.addEventListener("pointerdown", event => {
+          if (!state.started) return;
+          event.preventDefault();
+          button.setPointerCapture(event.pointerId);
+          beginDirection(direction, { type: "pointer", id: event.pointerId });
+        });
+        for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
+          button.addEventListener(eventName, event => {
+            endDirection(direction, { type: "pointer", id: event.pointerId });
+          });
+        }
+        button.addEventListener("click", event => {
+          if (event.detail === 0 && state.started) {
+            beginDirection(direction, { type: "key", id: `button-${direction}` });
+            endDirection(direction, { type: "key", id: `button-${direction}` });
+          }
+        });
+      });
+
+      window.addEventListener("keydown", event => {
+        const direction = directionKeys[event.key];
+        if (direction && state.started) {
+          event.preventDefault();
+          if (!event.repeat) beginDirection(direction, { type: "key", id: event.key });
+          return;
+        }
+        if (event.code === "Space" && state.started && !event.repeat
+          && !(event.target instanceof HTMLButtonElement)) {
+          event.preventDefault();
+          if (!spaceHeld) {
+            spaceHeld = true;
+            pickupOrDeliver();
+          }
+        }
+      });
+
+      window.addEventListener("keyup", event => {
+        const direction = directionKeys[event.key];
+        if (direction) endDirection(direction, { type: "key", id: event.key });
+        if (event.code === "Space") spaceHeld = false;
+      });
+
+      window.addEventListener("blur", stopAllInputs);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopAllInputs();
+      });
+
+      mobileLayout.addEventListener("change", syncResponsiveLayout);
+      syncResponsiveLayout();
+      render();
+    })();
+  </script>
 </body>
 </html>
