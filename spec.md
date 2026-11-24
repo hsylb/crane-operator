@@ -326,6 +326,42 @@ The application must remain a self-contained `index.html` suitable for static pu
 
 The application is an educational simulation, not a tool for determining whether an actual crane lift is safe.
 
+## Features
+
+Both features are readouts derived from the existing game state and conservative load chart. The fixed load sequence, movement and clearance rules, utilization thresholds, timer, scoring, and game-ending behavior stay the same. The tables below define expected results and record actual checks where available.
+
+### Feature 1 · Maximum allowable radius
+
+Display the greatest playable radius at which the existing chart can support the suspended load. For a suspended load of weight \(W>0\), calculate
+
+\[
+R_{\max}(W)=\max\{R\in\{50,51,\ldots,150\}\mid C(R)\ge W\}.
+\]
+
+Use the same stepwise capacity \(C(R)\) as gameplay. This value depends on the suspended load and does not change as the trolley moves. Display **N/A** when no load is suspended.
+
+| Suspended load | Expected display | Actual on desktop and mobile | Status |
+|---:|---:|---:|---|
+| None | N/A | N/A | Pass |
+| 4,000 lb | 150 ft | 150 ft | Pass |
+| 8,000 lb | 100 ft | 100 ft | Pass |
+| 12,000 lb | 75 ft | 75 ft | Pass |
+
+Focused validation on 2026-11-23 used Chromium at 1440 × 1000 desktop and 320 × 568 emulated mobile viewports. The value stayed constant during trolley travel and returned to N/A on delivery and Play Again. Both runs ended with a 300-point win. The desktop readout fit in the operating-radius card. The mobile readout fit beside the suspended-load value, with at least 39 CSS px between the dock and crane scene. Neither viewport had horizontal overflow.
+
+### Feature 2 · Remaining load capacity
+
+Display the unused capacity at the current operating radius. Calculate \(M=C(R)-W\) in pounds, using \(W=0\) when no load is suspended. If \(M\ge 0\), display \(M\) as remaining capacity. If \(M<0\), display **Capacity exceeded by** \(-M\) **lb** alongside the final overload readings.
+
+| Radius | Suspended load | Chart capacity | Expected display |
+|---:|---:|---:|---|
+| 50 ft | None | 20,000 lb | 20,000 lb remaining |
+| 150 ft | 4,000 lb | 5,500 lb | 1,500 lb remaining |
+| 100 ft | 8,000 lb | 9,000 lb | 1,000 lb remaining |
+| 74 ft | 12,000 lb | 13,000 lb | 1,000 lb remaining |
+| 75 ft | 12,000 lb | 13,000 lb | 1,000 lb remaining |
+| 76 ft | 12,000 lb | 9,000 lb | Capacity exceeded by 3,000 lb |
+
 ## Build stages
 
 1. **Mocking up the page layout** — Build the static page shell first: header, crane scene panel, live status strip, chart/readout panel, control guide, and mobile control dock. Use placeholder values and drawings only.  

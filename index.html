@@ -536,6 +536,13 @@
       letter-spacing: 0;
     }
 
+    .metric-note {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+    }
+
 
     .chart-heading {
       padding-bottom: 8px;
@@ -1642,6 +1649,7 @@
                 <div class="metric">
                   <span class="metric-label">Operating radius</span>
                   <span id="radius-readout" class="metric-value">50 <small>ft</small></span>
+                  <span class="metric-note">Max allowable radius <strong id="max-radius-readout">N/A</strong></span>
                 </div>
                 <div class="metric">
                   <span class="metric-label">Hook height</span>
@@ -1746,7 +1754,7 @@
         </div>
       </div>
       <div class="dock-load-objective" aria-label="Load and delivery objective">
-        <p>Suspended: <strong id="dock-suspended-load">None</strong></p>
+        <p>Suspended: <strong id="dock-suspended-load">None</strong> · Max radius: <strong id="dock-max-radius">N/A</strong></p>
         <p id="dock-objective">Next: A · 4,000 lb · R125 ft · H20 ft</p>
       </div>
       <div class="dock-operating-status" aria-label="Utilization and warning status">
@@ -1892,6 +1900,8 @@
         heightReadout: document.querySelector("#height-readout"),
         suspendedReadout: document.querySelector("#suspended-load-readout"),
         activeLoadReadout: document.querySelector("#active-load-readout"),
+        maxRadiusReadout: document.querySelector("#max-radius-readout"),
+        dockMaxRadius: document.querySelector("#dock-max-radius"),
         deliveryProgress: document.querySelector("#delivery-progress"),
         dockRadius: document.querySelector("#dock-radius"),
         dockHeight: document.querySelector("#dock-height"),
@@ -2189,7 +2199,13 @@
         updateTargetHighlight();
       }
 
-      function updateReadings() {
+      function updateReadings(weight) {
+        // The last radius in each capacity step is a chart endpoint.
+        const maxRadius = weight === 0 ? undefined
+          : loadChart.findLast(({ radius }) => capacityAt(radius) >= weight)?.radius;
+        const maxRadiusText = maxRadius === undefined ? "N/A" : `${maxRadius} ft`;
+        elements.maxRadiusReadout.textContent = maxRadiusText;
+        elements.dockMaxRadius.textContent = maxRadiusText;
         elements.radiusReadout.innerHTML = `${state.radius} <small>ft</small>`;
         elements.heightReadout.innerHTML = `${state.height} <small>ft</small>`;
         elements.dockRadius.textContent = String(state.radius);
@@ -2262,7 +2278,7 @@
         elements.siteIllustration.classList.toggle("is-tipped", state.outcome === "tip-over");
         updateChart(capacity, weight);
         updateScene();
-        updateReadings();
+        updateReadings(weight);
         if (state.outcome && elements.results.hidden) showResults();
       }
 

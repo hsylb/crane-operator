@@ -247,3 +247,14 @@ The specification and prompt log were not lost. The prompt log documents the act
 - **Request:** Record the user's manual results separately from the automated Stage 5 checks, identify outstanding tests, and confirm the status of mandatory core functionality and hand calculations.
 - **User-reported manual results:** Completed a desktop gameplay walkthrough. The results panel and outcome icons displayed correctly, delivered-load labels fit, and keyboard focus behaved correctly after restart. Browser version and viewport were unspecified.
 - **Change and outcome:** Updated Validation in `spec.md` with the manual desktop results. Mandatory core functionality and all three hand-calculation cases passed the recorded local checks. Physical-phone testing, real screen-reader checks, and device reduced-motion testing remain marked Not run. No new automated checks, application changes, additional features, or commit.
+
+## 2026-11-23 · Additional feature specifications
+
+- **Request:** Document maximum allowable radius and remaining load capacity under Features in `spec.md`, with formulas and expected validation results. Keep gameplay rules unchanged and defer implementation.
+- **Change and outcome:** Added both feature descriptions, readout formulas, and expected results for all three loads, the empty hook, and the 12,000 lb overload at 76 ft. The example values were checked against the existing chart. This was a documentation-only update. Neither feature was implemented or tested in the application.
+
+## 2026-11-23 · Feature 1 implementation
+
+- **Request:** Implement only maximum allowable radius using the existing capacity lookup and rendering, add a compact desktop/mobile readout, and run focused tests for all three loads and the empty hook. Leave Feature 2 and the commit pending.
+- **Change:** Added maximum allowable radius to the operating-radius card and the mobile dock beside the suspended load. The readouts select the farthest qualifying chart endpoint through the existing capacity lookup and update through the existing rendering flow.
+- **Outcome:** Focused Chromium checks at 1440 × 1000 desktop and 320 × 568 emulated mobile showed N/A, 150 ft, 100 ft, and 75 ft as expected. The value held during travel and cleared on delivery and Play Again. Both runs finished at 300 points, with no horizontal overflow or mobile scene obstruction. Recorded actual results in `spec.md`. Feature 2 remains unimplemented and no commit was made.
